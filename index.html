@@ -1,0 +1,194 @@
+<html>
+  <head>
+    <title>Prototype: Teaching Activities Search &amp; Filtering</title>
+    <link rel="icon" type="image/png" sizes="196x196" href="favicon.png">
+    <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <link rel="stylesheet/less" href="css/base.less" type="text/css">
+    <link rel="stylesheet/less" href="css/style.less" type="text/css">
+    <link rel="stylesheet" href="css/narrow.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,400i,500,700" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="196x196" href="images/favicon.png">
+
+    <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/hammer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/jquery.hammer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://unpkg.com/react-measure/dist/react-measure.js"></script>
+
+    <script src="js/react.js" type="text/babel" ></script>
+
+    <script>
+      less = {
+        env: "development",
+        async: false,
+        fileAsync: false,
+        poll: 1000,
+        functions: {},
+        dumpLineNumbers: "comments",
+        relativeUrls: false,
+        rootpath: ":/a.com/"
+      };
+    </script>
+    <script src="js/less.js"></script>
+    <meta name="viewport" content="width=320, user-scalable=no">
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+
+      <div class="centered">
+        <h1>Teaching Activities</h1>
+        <h2>Activities and lesson plans to get you started</h2>
+        <div id="wrapper">
+          <!-- cool react stuff gets inserted here -->
+        </div>
+
+        <br><br><br><br><br><br>
+        <br><br><br><br><br><br>
+        <br><br><br><br><br><br>
+        <br><br><br><br><br><br>
+
+        <!--
+          <div class="search-ui">
+          <span class="input-wrapper">
+            <input class="search" placeholder="Search by topic, description or tag" type="text"/>
+            <a href="#">+</a>
+          </span>
+        </div>
+        -->
+
+        <div class="filter-toggles">
+          <span class="label">Filters</span>
+          <button for="duration" class="filter-toggle">Duration</button>
+          <button for="difficulty" class="filter-toggle">Difficulty</button>
+          <button for="age" class="filter-toggle">Age Range</button>
+          <button for="skills" class="filter-toggle">Web Literacy Skills</button>
+          <a href="#" class="clear">Reset</a>
+        </div>
+
+        <div class="arrow-wrapper">
+          <div class="arrow"></div>
+        </div>
+
+        <div class="filters">
+
+          <div filter="difficulty" class="filter">
+            <button class="filter-option">Beginner</a>
+            <button class="filter-option">Intermediate</a>
+            <button class="filter-option">Advanced</a>
+          </div>
+
+          <div filter="duration" class="filter">
+            <strong>Time to complete</strong>
+            <input class="duration-slider" type="range" min="1" max="6" value="1" step="1" class="duration-slider"/>
+            <span class="value">Any Duration</span>
+          </div>
+
+          <div filter="skills" class="filter">
+            <button class="filter-option">Design</button>
+            <button class="filter-option">Code</button>
+            <button class="filter-option">Compose</button>
+            <button class="filter-option">Revise</button>
+            <button class="filter-option">Remix</button>
+            <button class="filter-option">Evaluate</button>
+            <button class="filter-option">Sythesize</button>
+            <button class="filter-option">Navigate</button>
+
+            <button class="filter-option">Search</button>
+            <button class="filter-option">Connect</button>
+            <button class="filter-option">Protect</button>
+            <button class="filter-option">Open Practice</button>
+            <button class="filter-option">Contribute</button>
+            <button class="filter-option">Share</button>
+
+            <div class="c-skills">
+              <strong>21st Century Skills</strong>
+              <button class="filter-option">Problem Solving</button>
+              <button class="filter-option">Communication</button>
+              <button class="filter-option">Creativity</button>
+              <button class="filter-option">Collaboration</button>
+            </div>
+          </div>
+
+          <div filter="age" class="filter">
+            <button class="filter-option">Kids</a>
+            <button class="filter-option">Teens</a>
+            <button class="filter-option">Adults</a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="result-list-wrapper">
+        <div class="results">
+
+          <div class="popular-topics">
+            <h3>Popular Topics</h3>
+            <div class="insert-here"></div>
+          </div>
+
+          <div class="search-results">
+            <h3><span class="activity-count">12</span> Results <span class="note">Note: these are just simulated results.</span><!-- <a href="#" class="clear-search">Clear search</a> --></h3>
+            <div class="insert-here"></div>
+          </div>
+
+          <div class="search-faker">
+            <h1>Searching...</h1>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sample result -->
+      <!-- ************************************************************************************ -->
+      <!-- ************************************************************************************ -->
+
+
+
+      <div class="result column result-template-column">
+        <div class="thumbnail">
+          <div class="activity-number">8 Activities</div>
+        </div>
+        <h1 class="title"><a href="#">Collection Title</a></h1>
+        <div class="meta">
+          <span class="author">By <a href="#">Mozilla</a></span>
+        </div>
+        <p class="description">
+          This collection is great, it has awesome activities that you can try about various topics!
+        </p>
+      </div>
+
+
+      <div class="result list result-template-list">
+        <div class="thumbnail"></div>
+        <h1 class="title"><a href="#">This is the activity title</a></h1>
+        <div class="meta">
+          <span class="difficulty">Beginner</span>
+          <span class="duration">2 hours</span>
+          <span class="author">By <a href="#">Mozilla</a></span>
+        </div>
+        <p class="description">
+          Use Thimble to tell the next President of the United States what issues matter to you most. Create and then submit your own online letters, memes, quotes, and campaign posters as part of the National Writing Project’s Letters to the Next President 2.0 campaign.
+        </p>
+        <div class="tag-list"><strong>Web Lit Skills</strong> <a href="#">Design</a> <a href="#">Revise</a> <a href="#">Search</a></div>
+        <div class="tag-list"><strong>Tags</strong> <a href="#">tag</a> <a href="#">tagger</a> <a href="#">taggest</a></div>
+      </div>
+
+
+
+      <!-- ************************************************************************************ -->
+      <!-- ************************************************************************************ -->
+      <!-- End sample result -->
+
+    </div>
+  </body>
+</html>
+
+
