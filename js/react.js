@@ -78,6 +78,7 @@ var SearchField = React.createClass({
   }
 });
 
+
 var SearchWrapper = React.createClass({
   getInitialState: function(){
     return {
@@ -217,6 +218,14 @@ var SearchWrapper = React.createClass({
           <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset">Reset</a>
         </div>
         { showFilters ? <FilterWrapper arrowPosition={ this.state.arrowposition } setOption={ this.setOption } filterData={ this.getFilterData() } /> : null }
+
+
+        <div className="code">
+
+        enabledFilters: { JSON.stringify(this.state.enabledFilters) }  <br/><br/>
+        searchTerm: { JSON.stringify(this.state.searchTerm) }
+        </div>
+
       </div>
     );
 
@@ -348,7 +357,6 @@ var DurationPicker =  React.createClass({
   },
 
   render: function() {
-
     return (
       <div className="duration-slider">
         <strong>Time to complete</strong>
