@@ -1,0 +1,561 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var filterOptions = __webpack_require__(1);
+	var SearchField = __webpack_require__(2);
+	var FilterToggle = __webpack_require__(3);
+	var FilterWrapper = __webpack_require__(4);
+
+	var SearchWrapper = React.createClass({
+	  displayName: "SearchWrapper",
+
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      showFilter: false, // Keeps track of which filter to currently show
+	      filterOptions: this.props.filterOptions, // All of the filter data
+	      enabledFilters: {}, // All of the selected filters
+	      searchTerm: "" // Search terms
+	    };
+	  },
+
+	  getSearchTerm: function getSearchTerm(e) {
+	    this.setState({
+	      searchTerm: e
+	    });
+	  },
+
+	  changeFilter: function changeFilter(filterType) {
+
+	    if (this.state.showFilter == filterType) {
+	      this.setState({
+	        showFilter: false
+	      });
+	    } else {
+	      this.setState({
+	        showFilter: filterType
+	      });
+	    }
+	  },
+
+	  // Updates the enabledFilters object
+
+	  setOption: function setOption(category, optionName, status) {
+
+	    var options = this.state.enabledFilters;
+
+	    if (!options[category]) {
+	      options[category] = [];
+	    }
+
+	    if (status && options[category].indexOf(optionName) < 0) {
+	      options[category].push(optionName);
+	    }
+
+	    if (status == false) {
+	      var optionIndex = options[category].indexOf(optionName);
+	      options[category].splice(optionIndex, 1);
+	      if (options[category].length == 0) {
+	        delete options[category];
+	      }
+	    }
+
+	    this.setState({
+	      enabledFilters: options
+	    });
+	  },
+
+	  // Returns list of filter options and enabled filters
+	  // For that filter cateogory
+
+	  getFilterData: function getFilterData() {
+
+	    var result;
+	    var options = JSON.parse(JSON.stringify(this.state.filterOptions)); // Gross?
+
+	    for (var i = 0; i < options.length; i++) {
+	      var optionSet = options[i];
+	      if (optionSet.name == this.state.showFilter) {
+	        result = optionSet;
+	      }
+	    }
+
+	    if (this.state.enabledFilters[this.state.showFilter]) {
+	      result.enabledOptions = this.state.enabledFilters[this.state.showFilter];
+	    }
+
+	    return result;
+	  },
+
+	  // Resets currently selected filters and hides the
+	  // expanded filters menu
+
+	  resetFilters: function resetFilters() {
+	    this.setState({
+	      showFilter: false,
+	      enabledFilters: {}
+	    });
+	  },
+
+	  updateArrowPosition: function updateArrowPosition(left) {
+	    this.setState({
+	      arrowposition: left
+	    });
+	  },
+
+	  render: function render() {
+
+	    var that = this;
+
+	    var i = 0;
+	    var filterToggles = this.state.filterOptions.map(function (el) {
+	      var currentCategory = el.name;
+	      i++;
+	      var active = false;
+
+	      if (that.state.enabledFilters[currentCategory]) {
+	        if (that.state.enabledFilters[currentCategory].length > 0) {
+	          active = true;
+	        }
+	      }
+
+	      var expanded = false;
+	      if (that.state.showFilter === el.name) {
+	        expanded = true;
+	      }
+
+	      return React.createElement(FilterToggle, { expanded: expanded, reportCenter: that.updateArrowPosition, enabled: active, onClick: that.changeFilter, label: el.label, filtername: el.name });
+	    });
+
+	    // Should we show the filters menu?
+	    var showFilters = this.state.showFilter;
+
+	    // Show the reset link only if we've got at least one filter enabled...
+	    var showReset = Object.keys(this.state.enabledFilters).length > 0 ? true : false;
+	    var resetLinkStyle = {
+	      opacity: showReset ? 1 : 0
+	    };
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(SearchField, { onUpdate: this.getSearchTerm }),
+	      React.createElement(
+	        "div",
+	        { className: "filter-toggles" },
+	        "Filters ",
+	        filterToggles,
+	        React.createElement(
+	          "a",
+	          { href: "#", style: resetLinkStyle, onClick: this.resetFilters, className: "reset" },
+	          "Reset"
+	        )
+	      ),
+	      showFilters ? React.createElement(FilterWrapper, { arrowPosition: this.state.arrowposition, setOption: this.setOption, filterData: this.getFilterData() }) : null,
+	      React.createElement(
+	        "div",
+	        { className: "code" },
+	        "enabledFilters: ",
+	        JSON.stringify(this.state.enabledFilters),
+	        "  ",
+	        React.createElement("br", null),
+	        React.createElement("br", null),
+	        "searchTerm: ",
+	        JSON.stringify(this.state.searchTerm)
+	      )
+	    );
+	  }
+	});
+
+	ReactDOM.render(React.createElement(SearchWrapper, { filterOptions: filterOptions }), document.getElementById('wrapper'));
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var filterOptions = [{
+	  name: "duration",
+	  label: "Duration",
+	  options: {
+	    0: "Any duration",
+	    1: "About 15 minutes",
+	    2: "15 minutes to 1 hour",
+	    3: "1 to 2 hours",
+	    4: "2 to 4 hours",
+	    5: "4 hours +"
+	  },
+	  type: "slider"
+	}, {
+	  name: "difficulty",
+	  label: "Difficulty",
+	  optionGroups: [{
+	    label: false,
+	    options: ["Beginner", "Intermediate", "Advanced"]
+	  }],
+	  type: "pills"
+	}, {
+	  name: "age-range",
+	  label: "Age Range",
+	  optionGroups: [{
+	    label: false,
+	    options: ["Kids", "Teens", "Adults"]
+	  }],
+	  type: "pills"
+	}, {
+	  name: "web-lit-skills",
+	  label: "Web Literacy Skills",
+	  optionGroups: [{
+	    label: false,
+	    options: ["Design", "Code", "Compose", "Revise", "Remix", "Evaluate", "Sythesize", "Navigate", "Search", "Connect", "Protect", "Open", "Practice", "Contribute", "Share"]
+	  }, {
+	    label: "21st Century Skills",
+	    options: ["Problem Solving", "Communication", "Creativity", "Collaboration"]
+	  }],
+	  type: "pills"
+	}];
+
+	module.exports = filterOptions;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// Text input search field with a clear X button
+
+	var SearchField = React.createClass({
+	  displayName: "SearchField",
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      hasTerm: false
+	    };
+	  },
+	  keyDown: function keyDown() {
+	    var inputValue = this.refs.searchInput.value;
+	    inputValue = inputValue.trim();
+	    this.props.onUpdate(inputValue);
+	    this.setState({
+	      hasTerm: inputValue.length > 0
+	    });
+	  },
+	  clearSearch: function clearSearch() {
+	    this.refs.searchInput.value = "";
+	    this.setState({
+	      hasTerm: false
+	    });
+	    this.props.onUpdate("");
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "div",
+	        { className: "search-ui" },
+	        React.createElement(
+	          "span",
+	          { className: "input-wrapper" },
+	          React.createElement("input", { ref: "searchInput", onKeyUp: this.keyDown, className: "search", placeholder: "Search by topic, description or tag", type: "text" }),
+	          this.state.hasTerm ? React.createElement(
+	            "a",
+	            { onClick: this.clearSearch, href: "#" },
+	            "+"
+	          ) : null
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = SearchField;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// Pill that shows and hides the corresponding filter set
+
+	var FilterToggle = React.createClass({
+	  displayName: "FilterToggle",
+
+	  gotClicked: function gotClicked() {
+	    this.props.onClick(this.props.filtername);
+
+	    var left = this.refs.button.offsetLeft;
+	    var width = this.refs.button.offsetWidth;
+
+	    // Let the parent know what the arrow position
+	    // Shoudl be based on it's positions
+	    this.props.reportCenter(left + width / 2 - 10);
+	  },
+	  render: function render() {
+	    var className = "";
+
+	    if (this.props.expanded) {
+	      className += " active";
+	    }
+
+	    if (this.props.enabled) {
+	      className += " filter-active";
+	    }
+
+	    return React.createElement(
+	      "div",
+	      { className: "filter-toggle" },
+	      React.createElement(
+	        "button",
+	        { ref: "button", className: className, onClick: this.gotClicked },
+	        this.props.label
+	      )
+	    );
+	  }
+	});
+
+	module.exports = FilterToggle;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var FilterOption = __webpack_require__(5);
+	var DurationPicker = __webpack_require__(6);
+
+	// This the gray box with all the filter options down below...
+	var FilterWrapper = React.createClass({
+	  displayName: "FilterWrapper",
+
+	  render: function render() {
+
+	    var filterData = this.props.filterData;
+
+	    var optionUI; // This is returned and injected in the render function
+
+	    var that = this;
+
+	    // If this filter is a Pills type
+	    if (filterData.type == "pills") {
+
+	      // an optionGroup is a set of related pills
+	      optionUI = filterData.optionGroups.map(function (optionGroup) {
+
+	        var optionSet = optionGroup.options.map(function (item) {
+	          var enabled = false;
+	          if (filterData.enabledOptions) {
+	            if (filterData.enabledOptions.indexOf(item) > -1) {
+	              enabled = true;
+	            }
+	          }
+	          return React.createElement(FilterOption, { category: filterData.name, enabled: enabled, changeOption: that.props.setOption, label: item });
+	        });
+
+	        // Some option groups have a label, if so, add it before all the options
+	        if (optionGroup.label) {
+	          optionSet.unshift(React.createElement(
+	            "strong",
+	            { className: "label" },
+	            " ",
+	            optionGroup.label,
+	            " "
+	          ));
+	        }
+
+	        return optionSet;
+	      });
+	    }
+
+	    if (filterData.type == "slider") {
+	      var value = 0;
+	      if (filterData.enabledOptions) {
+	        if (filterData.enabledOptions.length > 0) {
+	          value = filterData.enabledOptions[0];
+	        }
+	      }
+	      optionUI = React.createElement(DurationPicker, { options: filterData.options, category: filterData.name, value: value, changeOption: that.props.setOption });
+	    }
+
+	    var arrowStyle = {
+	      left: this.props.arrowPosition
+	    };
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "div",
+	        { className: "arrow-wrapper" },
+	        React.createElement("div", { style: arrowStyle, className: "arrow" })
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "filters" },
+	        React.createElement(
+	          "div",
+	          { className: "filter" },
+	          optionUI
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = FilterWrapper;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// Pill for each individual filter option
+	var FilterOption = React.createClass({
+	  displayName: "FilterOption",
+
+	  gotClicked: function gotClicked() {
+	    // Sends the opposite value of it's current
+	    this.props.changeOption(this.props.category, this.props.label, !this.props.enabled);
+	  },
+	  getClass: function getClass() {
+	    if (this.props.enabled) {
+	      return "filter-option active";
+	    } else {
+	      return "filter-option";
+	    }
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "filter-option" },
+	      React.createElement(
+	        "button",
+	        { className: this.getClass(), onClick: this.gotClicked },
+	        this.props.label
+	      )
+	    );
+	  }
+	});
+
+	module.exports = FilterOption;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// This is the range slider for the duration
+
+	var DurationPicker = React.createClass({
+	  displayName: "DurationPicker",
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      label: "",
+	      optioncount: Object.keys(this.props.options).length
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.refs.input.value = parseInt(this.props.value);
+	    this.setLabel(this.props.value);
+	  },
+
+	  setLabel: function setLabel(val) {
+	    this.setState({
+	      label: this.getLabel(val)
+	    });
+	  },
+
+	  change: function change(e) {
+	    var val = this.refs.input.value;
+	    this.setLabel(val);
+
+	    this.props.changeOption(this.props.category, this.props.value, false);
+
+	    if (val == 0) {
+	      this.props.changeOption(this.props.category, val, false);
+	    } else {
+	      this.props.changeOption(this.props.category, val, true);
+	    }
+	  },
+
+	  getLabel: function getLabel(val) {
+	    return this.props.options[parseInt(val)];
+	  },
+
+
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "duration-slider" },
+	      React.createElement(
+	        "strong",
+	        null,
+	        "Time to complete"
+	      ),
+	      React.createElement("input", { ref: "input", type: "range", min: "0", max: this.state.optioncount - 1, onChange: this.change, step: "1" }),
+	      React.createElement(
+	        "span",
+	        { className: "value" },
+	        this.state.label
+	      )
+	    );
+	  }
+	});
+
+	module.exports = DurationPicker;
+
+/***/ }
+/******/ ]);
