@@ -1,7 +1,10 @@
+// Filter options JSON
 var filterOptions = require("./filteroptions.js");
-var SearchField =   require("./searchfield.js");
-var FilterToggle =  require("./filtertoggle.js");
-var FilterWrapper = require("./filterwrapper.js");
+
+// Components
+var SearchField =   require("./components/searchfield.js");
+var FilterToggle =  require("./components/filtertoggle.js");
+var FilterWrapper = require("./components/filterwrapper.js");
 
 var SearchWrapper = React.createClass({
 

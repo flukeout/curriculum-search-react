@@ -1,5 +1,5 @@
-var FilterOption =  require("./filteroption.js");
-var DurationPicker =  require("./durationpicker.js");
+var FilterOption = require("./filteroption.js");
+var SliderWithLabels = require("./sliderwithlabels.js");
 
 // This the gray box with all the filter options down below...
 var FilterWrapper =  React.createClass({
@@ -32,18 +32,18 @@ var FilterWrapper =  React.createClass({
           optionSet.unshift(<strong className='label'> { optionGroup.label} </strong>);
         }
 
-        return optionSet;
+        return (<div className="option-set"> { optionSet } </div> ) ;
       });
     }
 
     if(filterData.type == "slider"){
-      var value = 0;
+      var value = filterData.options[0]; // Sets default option to the first option
       if(filterData.enabledOptions) {
         if(filterData.enabledOptions.length > 0) {
           value = filterData.enabledOptions[0];
         }
       }
-      optionUI = ( <DurationPicker options={ filterData.options } category={ filterData.name } value={ value } changeOption={ that.props.setOption } /> )
+      optionUI = ( <SliderWithLabels options={ filterData.options } optionLabel={ filterData.optionLabel } category={ filterData.name } value={ value } changeOption={ that.props.setOption } /> )
     }
 
     var arrowStyle = {
@@ -51,14 +51,12 @@ var FilterWrapper =  React.createClass({
     }
 
     return (
-      <div>
+      <div className="filter-wrapper">
         <div className="arrow-wrapper">
           <div style={ arrowStyle } className="arrow"></div>
         </div>
         <div className="filters">
-          <div className="filter">
-            { optionUI }
-          </div>
+          { optionUI }
         </div>
       </div>
     );

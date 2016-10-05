@@ -46,7 +46,10 @@
 
 	"use strict";
 
+	// Filter options JSON
 	var filterOptions = __webpack_require__(1);
+
+	// Components
 	var SearchField = __webpack_require__(2);
 	var FilterToggle = __webpack_require__(3);
 	var FilterWrapper = __webpack_require__(4);
@@ -223,14 +226,8 @@
 	var filterOptions = [{
 	  name: "duration",
 	  label: "Duration",
-	  options: {
-	    0: "Any duration",
-	    1: "About 15 minutes",
-	    2: "15 minutes to 1 hour",
-	    3: "1 to 2 hours",
-	    4: "2 to 4 hours",
-	    5: "4 hours +"
-	  },
+	  optionLabel: "Time to complete",
+	  options: ["Any duration", "About 15 minutes", "15 minutes to 1 hour", "1 to 2 hours", "2 to 4 hours", "4 hours +"],
 	  type: "slider"
 	}, {
 	  name: "difficulty",
@@ -371,7 +368,7 @@
 	"use strict";
 
 	var FilterOption = __webpack_require__(5);
-	var DurationPicker = __webpack_require__(6);
+	var SliderWithLabels = __webpack_require__(6);
 
 	// This the gray box with all the filter options down below...
 	var FilterWrapper = React.createClass({
@@ -412,18 +409,24 @@
 	          ));
 	        }
 
-	        return optionSet;
+	        return React.createElement(
+	          "div",
+	          { className: "option-set" },
+	          " ",
+	          optionSet,
+	          " "
+	        );
 	      });
 	    }
 
 	    if (filterData.type == "slider") {
-	      var value = 0;
+	      var value = filterData.options[0]; // Sets default option to the first option
 	      if (filterData.enabledOptions) {
 	        if (filterData.enabledOptions.length > 0) {
 	          value = filterData.enabledOptions[0];
 	        }
 	      }
-	      optionUI = React.createElement(DurationPicker, { options: filterData.options, category: filterData.name, value: value, changeOption: that.props.setOption });
+	      optionUI = React.createElement(SliderWithLabels, { options: filterData.options, optionLabel: filterData.optionLabel, category: filterData.name, value: value, changeOption: that.props.setOption });
 	    }
 
 	    var arrowStyle = {
@@ -432,7 +435,7 @@
 
 	    return React.createElement(
 	      "div",
-	      null,
+	      { className: "filter-wrapper" },
 	      React.createElement(
 	        "div",
 	        { className: "arrow-wrapper" },
@@ -441,11 +444,7 @@
 	      React.createElement(
 	        "div",
 	        { className: "filters" },
-	        React.createElement(
-	          "div",
-	          { className: "filter" },
-	          optionUI
-	        )
+	        optionUI
 	      )
 	    );
 	  }
@@ -495,42 +494,39 @@
 
 	"use strict";
 
-	// This is the range slider for the duration
+	//Slider with labels
 
-	var DurationPicker = React.createClass({
-	  displayName: "DurationPicker",
+	var SliderWithLabels = React.createClass({
+	  displayName: "SliderWithLabels",
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      label: "",
-	      optioncount: Object.keys(this.props.options).length
+	      optioncount: Object.keys(this.props.options).length,
+	      value: this.props.value
 	    };
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    this.refs.input.value = parseInt(this.props.value);
-	    this.setLabel(this.props.value);
-	  },
-
-	  setLabel: function setLabel(val) {
-	    this.setState({
-	      label: this.getLabel(val)
-	    });
+	    this.refs.input.value = this.getOptionIndex(this.props.value);
 	  },
 
 	  change: function change(e) {
 	    var val = this.refs.input.value;
-	    this.setLabel(val);
 
-	    this.props.changeOption(this.props.category, this.props.value, false);
+	    this.props.changeOption(this.props.category, this.state.value, false);
+	    this.props.changeOption(this.props.category, this.getLabel(val), true);
 
-	    if (val == 0) {
-	      this.props.changeOption(this.props.category, val, false);
-	    } else {
-	      this.props.changeOption(this.props.category, val, true);
-	    }
+	    this.setState({
+	      value: this.getLabel(val)
+	    });
 	  },
 
+	  // Get numerical value of the current label
+	  getOptionIndex: function getOptionIndex(label) {
+	    return this.props.options.indexOf(label);
+	  },
+
+	  // Get label for specific numerical value in options array
 	  getLabel: function getLabel(val) {
 	    return this.props.options[parseInt(val)];
 	  },
@@ -543,19 +539,19 @@
 	      React.createElement(
 	        "strong",
 	        null,
-	        "Time to complete"
+	        this.props.optionLabel
 	      ),
 	      React.createElement("input", { ref: "input", type: "range", min: "0", max: this.state.optioncount - 1, onChange: this.change, step: "1" }),
 	      React.createElement(
 	        "span",
 	        { className: "value" },
-	        this.state.label
+	        this.state.value
 	      )
 	    );
 	  }
 	});
 
-	module.exports = DurationPicker;
+	module.exports = SliderWithLabels;
 
 /***/ }
 /******/ ]);

@@ -1,0 +1,46 @@
+// Grey box containing the filter options and arrow indicator.
+
+.filter-wrapper {
+
+  .arrow-wrapper {
+    position: relative;
+    height: 15px;
+    overflow: hidden;
+
+    .arrow {
+      width: 20px;
+      transform: rotate(45deg);
+      height: 20px;
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      background: #e6e6e6;
+      transition: left .25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+  }
+
+  .filters {
+    background: rgba(0,0,0,.1);
+    border-radius: 20px;
+    transition: all .3s ease-out;
+    padding: 20px 10px;
+
+    .option-set {
+      position: relative;
+    }
+
+    .option-set + .option-set {
+      padding-top: 15px;
+      margin-top: 15px;
+
+      &:before {
+        content: "";
+        position:absolute;
+        top: 0;
+        left: 25%;
+        width: 50%;
+        border-top: solid 1px rgba(0,0,0,.15);
+      }
+    }
+  }
+}

@@ -2,14 +2,14 @@ var filterOptions = [
   {
     name: "duration",
     label : "Duration",
-    options : {
-      0 : "Any duration",
-      1 : "About 15 minutes",
-      2 : "15 minutes to 1 hour",
-      3 : "1 to 2 hours",
-      4 : "2 to 4 hours",
-      5 : "4 hours +"
-    },
+    optionLabel : "Time to complete",
+    options : [
+      "Any duration",
+      "About 15 minutes",
+      "15 minutes to 1 hour",
+      "1 to 2 hours",
+      "2 to 4 hours",
+      "4 hours +"],
     type : "slider"
   },
   {

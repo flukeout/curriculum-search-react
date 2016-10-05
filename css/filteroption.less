@@ -1,0 +1,23 @@
+// White pill toggle
+
+.filter-option {
+  display: inline-block;
+
+  button {
+    color: rgba(0,0,0,.6);
+    margin: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 9px 15px 8px 15px;
+    display: inline-block;
+    border-radius: 20px;
+
+    &.active {
+      background: rgba(0,0,0,.05);
+      background: white;
+      color: rgba(0,0,0,.7);
+      font-weight: 400;
+      animation: pop .15s ease-out;
+    }
+  }
+}
