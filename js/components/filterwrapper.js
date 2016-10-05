@@ -11,30 +11,15 @@ var FilterWrapper =  React.createClass({
 
     var that = this;
 
-    if(filterData.interface_type == "pills") {
-      var optionGroups = []; // Will create an array of all the option sets to iterate over
+    optionUI = filterData.map(function(optionGroup){
 
-      optionGroups.push({
-        name: filterData.name ,
-        options: filterData.options,
-        optionLabel: filterData.optionLabel || false
-      });
-
-      if(filterData.more_options){
-        for(var i = 0; i < filterData.more_options.length; i ++) {
-          var optionGroup = filterData.more_options[i];
-          optionGroups.push(optionGroup);
-        }
-      }
-
-      var that = this;
-
-      optionUI = optionGroups.map(function(optionGroup){
+      if(optionGroup.interface_type == "pills") {
 
         var optionSet = optionGroup.options.map(function(item){
           var enabled = false;
-          if(filterData.enabledOptions){
-            if(filterData.enabledOptions.indexOf(item) > -1) {
+
+          if(optionGroup.enabledOptions){
+            if(optionGroup.enabledOptions.indexOf(item) > -1) {
               enabled = true;
             }
           }
@@ -47,19 +32,19 @@ var FilterWrapper =  React.createClass({
             { optionSet }
           </div>
         );
-      });
-    }
-
-    if(filterData.interface_type == "slider"){
-      var value = filterData.default_option || filterData.options[0]; // Sets default value if available
-
-      if(filterData.enabledOptions) {
-        if(filterData.enabledOptions.length > 0) {
-          value = filterData.enabledOptions[0];
-        }
       }
-      optionUI = ( <SliderWithLabels options={ filterData.options } optionLabel={ filterData.optionLabel } category={ filterData.name } value={ value } changeOption={ that.props.setOption } /> )
-    }
+
+      if(optionGroup.interface_type == "slider"){
+        var value = optionGroup.default_option || optionGroup.options[0]; // Sets default value if available
+
+        if(optionGroup.enabledOptions) {
+          if(optionGroup.enabledOptions.length > 0) {
+            value = optionGroup.enabledOptions[0];
+          }
+        }
+        return ( <SliderWithLabels options={ optionGroup.options } optionLabel={ optionGroup.optionLabel } category={ optionGroup.name } value={ value } changeOption={ that.props.setOption } /> )
+      }
+    });
 
     var arrowStyle = {
       left : this.props.arrowPosition

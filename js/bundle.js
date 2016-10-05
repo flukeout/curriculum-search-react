@@ -90,6 +90,8 @@
 
 	  setOption: function setOption(category, optionName, status) {
 
+	    console.log("setOption", category, optionName, status);
+
 	    var options = this.state.enabledFilters;
 
 	    if (!options[category]) {
@@ -118,21 +120,44 @@
 
 	  getFilterData: function getFilterData() {
 
-	    var result;
+	    var optionGroups = []; // this will be the result
+
 	    var options = JSON.parse(JSON.stringify(this.state.filterOptions)); // Gross?
 
 	    for (var i = 0; i < options.length; i++) {
 	      var optionSet = options[i];
 	      if (optionSet.name == this.state.showFilter) {
-	        result = optionSet;
+
+	        var optionGroup = {
+	          name: optionSet.name,
+	          options: optionSet.options,
+	          optionLabel: optionSet.optionLabel || false,
+	          interface_type: optionSet.interface_type,
+	          default_option: optionSet.default_option || false
+	        };
+
+	        if (this.state.enabledFilters[this.state.showFilter]) {
+	          optionGroup.enabledOptions = this.state.enabledFilters[this.state.showFilter];
+	        }
+
+	        optionGroups.push(optionGroup);
+
+	        // If there are more_options, push em in
+	        if (optionSet.more_options) {
+	          for (var j = 0; j < optionSet.more_options.length; j++) {
+	            var optionGroup = optionSet.more_options[j];
+	            optionGroup.interface_type = optionSet.interface_type;
+	            optionGroups.push(optionGroup);
+
+	            if (this.state.enabledFilters[optionGroup.name]) {
+	              optionGroup.enabledOptions = this.state.enabledFilters[optionGroup.name];
+	            }
+	          }
+	        }
 	      }
 	    }
 
-	    if (this.state.enabledFilters[this.state.showFilter]) {
-	      result.enabledOptions = this.state.enabledFilters[this.state.showFilter];
-	    }
-
-	    return result;
+	    return optionGroups;
 	  },
 
 	  // Resets currently selected filters and hides the
@@ -368,30 +393,15 @@
 
 	    var that = this;
 
-	    if (filterData.interface_type == "pills") {
-	      var optionGroups = []; // Will create an array of all the option sets to iterate over
+	    optionUI = filterData.map(function (optionGroup) {
 
-	      optionGroups.push({
-	        name: filterData.name,
-	        options: filterData.options,
-	        optionLabel: filterData.optionLabel || false
-	      });
-
-	      if (filterData.more_options) {
-	        for (var i = 0; i < filterData.more_options.length; i++) {
-	          var optionGroup = filterData.more_options[i];
-	          optionGroups.push(optionGroup);
-	        }
-	      }
-
-	      var that = this;
-
-	      optionUI = optionGroups.map(function (optionGroup) {
+	      if (optionGroup.interface_type == "pills") {
 
 	        var optionSet = optionGroup.options.map(function (item) {
 	          var enabled = false;
-	          if (filterData.enabledOptions) {
-	            if (filterData.enabledOptions.indexOf(item) > -1) {
+
+	          if (optionGroup.enabledOptions) {
+	            if (optionGroup.enabledOptions.indexOf(item) > -1) {
 	              enabled = true;
 	            }
 	          }
@@ -410,19 +420,19 @@
 	          ) : null,
 	          optionSet
 	        );
-	      });
-	    }
-
-	    if (filterData.interface_type == "slider") {
-	      var value = filterData.default_option || filterData.options[0]; // Sets default value if available
-
-	      if (filterData.enabledOptions) {
-	        if (filterData.enabledOptions.length > 0) {
-	          value = filterData.enabledOptions[0];
-	        }
 	      }
-	      optionUI = React.createElement(SliderWithLabels, { options: filterData.options, optionLabel: filterData.optionLabel, category: filterData.name, value: value, changeOption: that.props.setOption });
-	    }
+
+	      if (optionGroup.interface_type == "slider") {
+	        var value = optionGroup.default_option || optionGroup.options[0]; // Sets default value if available
+
+	        if (optionGroup.enabledOptions) {
+	          if (optionGroup.enabledOptions.length > 0) {
+	            value = optionGroup.enabledOptions[0];
+	          }
+	        }
+	        return React.createElement(SliderWithLabels, { options: optionGroup.options, optionLabel: optionGroup.optionLabel, category: optionGroup.name, value: value, changeOption: that.props.setOption });
+	      }
+	    });
 
 	    var arrowStyle = {
 	      left: this.props.arrowPosition

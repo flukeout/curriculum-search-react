@@ -40,6 +40,8 @@ var SearchWrapper = React.createClass({
 
   setOption: function(category, optionName, status){
 
+    console.log("setOption",category,optionName,status);
+
     var options = this.state.enabledFilters;
 
     if(!options[category]) {
@@ -68,21 +70,44 @@ var SearchWrapper = React.createClass({
 
   getFilterData : function(){
 
-    var result;
+    var optionGroups = []; // this will be the result
+
     var options = JSON.parse(JSON.stringify(this.state.filterOptions)); // Gross?
 
     for(var i = 0; i < options.length; i++){
       var optionSet = options[i];
       if(optionSet.name == this.state.showFilter){
-        result = optionSet;
+
+        var optionGroup = {
+          name: optionSet.name ,
+          options: optionSet.options,
+          optionLabel: optionSet.optionLabel || false,
+          interface_type : optionSet.interface_type,
+          default_option : optionSet.default_option || false
+        }
+
+        if(this.state.enabledFilters[this.state.showFilter]){
+          optionGroup.enabledOptions = this.state.enabledFilters[this.state.showFilter];
+        }
+
+        optionGroups.push(optionGroup);
+
+        // If there are more_options, push em in
+        if(optionSet.more_options){
+          for(var j = 0; j < optionSet.more_options.length; j++) {
+            var optionGroup = optionSet.more_options[j];
+            optionGroup.interface_type = optionSet.interface_type;
+            optionGroups.push(optionGroup);
+
+            if(this.state.enabledFilters[optionGroup.name]){
+              optionGroup.enabledOptions = this.state.enabledFilters[optionGroup.name];
+            }
+          }
+        }
       }
     }
 
-    if(this.state.enabledFilters[this.state.showFilter]){
-      result.enabledOptions = this.state.enabledFilters[this.state.showFilter];
-    }
-
-    return result;
+    return optionGroups;
   },
 
   // Resets currently selected filters and hides the
