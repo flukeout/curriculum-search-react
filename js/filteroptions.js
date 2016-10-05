@@ -1,7 +1,7 @@
 var filterOptions = [
   {
     name: "duration",
-    label : "Duration",
+    toggleLabel : "Duration",
     optionLabel : "Time to complete",
     options : [
       "Any duration",
@@ -10,43 +10,32 @@ var filterOptions = [
       "1 to 2 hours",
       "2 to 4 hours",
       "4 hours +"],
-    type : "slider"
+    default_option: "Any duration",
+    interface_type : "slider"
   },
   {
     name : "difficulty",
-    label : "Difficulty",
-    optionGroups : [
-      {
-        label : false,
-        options : ["Beginner", "Intermediate", "Advanced"]
-      }
-    ],
-    type : "pills"
+    toggleLabel : "Difficulty",
+    options : ["Beginner", "Intermediate", "Advanced"],
+    interface_type : "pills"
   },
   {
     name: "age-range",
-    label : "Age Range",
-    optionGroups : [
-      {
-        label: false,
-        options: ["Kids", "Teens", "Adults"]
-      }
-    ],
-    type : "pills"
+    toggleLabel : "Age Range",
+    options: ["Kids", "Teens", "Adults"],
+    interface_type : "pills"
   },
   {
     name: "web-lit-skills",
-    label : "Web Literacy Skills",
-    optionGroups: [
+    toggleLabel : "Web Literacy Skills",
+    options: ["Design", "Code", "Compose", "Revise", "Remix", "Evaluate", "Sythesize", "Navigate", "Search", "Connect", "Protect", "Open", "Practice", "Contribute", "Share"],
+    more_options: [
       {
-        label : false,
-        options: ["Design", "Code", "Compose", "Revise", "Remix", "Evaluate", "Sythesize", "Navigate", "Search", "Connect", "Protect", "Open", "Practice", "Contribute", "Share"]
-      },
-      {
-        label : "21st Century Skills",
+        name : "century-skills",
+        optionLabel : "21st Century Skills",
         options: ["Problem Solving", "Communication", "Creativity", "Collaboration"]
       }],
-    type : "pills"
+    interface_type : "pills"
   }
 ]
 

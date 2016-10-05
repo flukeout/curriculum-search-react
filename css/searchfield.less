@@ -1,0 +1,41 @@
+// Search input field
+
+.search-field {
+
+  input {
+    width: 500px;
+    border-bottom: solid 2px rgba(0,0,0,.1);
+    transition: border .15s ease-out;
+    font-size: 1.25em;
+  }
+
+  &[active] input {
+   border-bottom: solid 2px rgba(0,0,0,.4);
+  }
+
+  .input-wrapper {
+    position: relative;
+
+    a {
+      position: absolute;
+      right: -4px;
+      bottom: -3px;
+      color: rgba(0,0,0,.3);
+      font-size: 32px;
+      font-weight: 300;
+      transform: rotate(45deg);
+      transition: color .15s ease-out;
+      padding: 3px 9px 0px 9px;
+
+      &:after {
+        content: "+";
+      }
+
+      &:hover {
+        color: rgba(0,0,0,.5);
+        text-decoration: none;
+      }
+    }
+  }
+}
+

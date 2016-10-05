@@ -122,7 +122,7 @@ var SearchWrapper = React.createClass({
         expanded = true;
       }
 
-      return ( <FilterToggle expanded={ expanded } reportCenter={ that.updateArrowPosition } enabled={ active } onClick={ that.changeFilter } label={ el.label } filtername={ el.name }/> )
+      return ( <FilterToggle expanded={ expanded } reportCenter={ that.updateArrowPosition } enabled={ active } onClick={ that.changeFilter } label={ el.toggleLabel } filtername={ el.name }/> )
     });
 
     // Should we show the filters menu?
@@ -142,7 +142,6 @@ var SearchWrapper = React.createClass({
           <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset">Reset</a>
         </div>
         { showFilters ? <FilterWrapper arrowPosition={ this.state.arrowposition } setOption={ this.setOption } filterData={ this.getFilterData() } /> : null }
-
 
         <div className="code">
 

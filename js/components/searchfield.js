@@ -23,13 +23,11 @@ var SearchField = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <div className="search-ui">
-          <span className="input-wrapper">
-            <input ref="searchInput" onKeyUp={ this.keyDown } className="search" placeholder="Search by topic, description or tag" type="text"/>
-            { this.state.hasTerm ? <a onClick={ this.clearSearch } href="#">+</a>  : null }
-          </span>
-        </div>
+      <div className="search-field">
+        <span className="input-wrapper">
+          <input ref="searchInput" onKeyUp={ this.keyDown } className="search" placeholder="Search by topic, description or tag" type="text"/>
+          { this.state.hasTerm ? <a onClick={ this.clearSearch } href="#"></a>  : null }
+        </span>
       </div>
     );
   }

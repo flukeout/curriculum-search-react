@@ -20,4 +20,29 @@
       animation: pop .15s ease-out;
     }
   }
+
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    outline: none;
+    font-size: inherit;
+    border: none;
+    font-weight: 300;
+  }
+
+  @keyframes pop {
+    0 {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+
 }

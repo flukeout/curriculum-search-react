@@ -7,15 +7,29 @@ var FilterWrapper =  React.createClass({
 
     var filterData = this.props.filterData;
 
-    var optionUI; // This is returned and injected in the render function
+    var optionUI; // holds the final UI markup
 
     var that = this;
 
-    // If this filter is a Pills type
-    if(filterData.type == "pills") {
+    if(filterData.interface_type == "pills") {
+      var optionGroups = []; // Will create an array of all the option sets to iterate over
 
-      // an optionGroup is a set of related pills
-      optionUI = filterData.optionGroups.map(function(optionGroup){
+      optionGroups.push({
+        name: filterData.name ,
+        options: filterData.options,
+        optionLabel: filterData.optionLabel || false
+      });
+
+      if(filterData.more_options){
+        for(var i = 0; i < filterData.more_options.length; i ++) {
+          var optionGroup = filterData.more_options[i];
+          optionGroups.push(optionGroup);
+        }
+      }
+
+      var that = this;
+
+      optionUI = optionGroups.map(function(optionGroup){
 
         var optionSet = optionGroup.options.map(function(item){
           var enabled = false;
@@ -27,17 +41,18 @@ var FilterWrapper =  React.createClass({
           return ( <FilterOption category={ filterData.name} enabled={ enabled } changeOption={ that.props.setOption } label={item} /> )
         });
 
-        // Some option groups have a label, if so, add it before all the options
-        if(optionGroup.label) {
-          optionSet.unshift(<strong className='label'> { optionGroup.label} </strong>);
-        }
-
-        return (<div className="option-set"> { optionSet } </div> ) ;
+        return (
+          <div className="option-set">
+            { optionGroup.optionLabel ? <strong className='label'> { optionGroup.optionLabel } </strong> : null }
+            { optionSet }
+          </div>
+        );
       });
     }
 
-    if(filterData.type == "slider"){
-      var value = filterData.options[0]; // Sets default option to the first option
+    if(filterData.interface_type == "slider"){
+      var value = filterData.default_option || filterData.options[0]; // Sets default value if available
+
       if(filterData.enabledOptions) {
         if(filterData.enabledOptions.length > 0) {
           value = filterData.enabledOptions[0];

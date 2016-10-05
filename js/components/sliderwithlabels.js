@@ -35,7 +35,7 @@ var SliderWithLabels =  React.createClass({
 
   render: function() {
     return (
-      <div className="duration-slider">
+      <div className="slider-with-labels">
         <strong>{ this.props.optionLabel }</strong>
         <input ref="input" type="range" min="0" max={ this.state.optioncount - 1 }  onChange={ this.change } step="1" />
         <span className="value">{ this.state.value }</span>

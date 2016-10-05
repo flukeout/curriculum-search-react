@@ -172,7 +172,7 @@
 	        expanded = true;
 	      }
 
-	      return React.createElement(FilterToggle, { expanded: expanded, reportCenter: that.updateArrowPosition, enabled: active, onClick: that.changeFilter, label: el.label, filtername: el.name });
+	      return React.createElement(FilterToggle, { expanded: expanded, reportCenter: that.updateArrowPosition, enabled: active, onClick: that.changeFilter, label: el.toggleLabel, filtername: el.name });
 	    });
 
 	    // Should we show the filters menu?
@@ -225,37 +225,31 @@
 
 	var filterOptions = [{
 	  name: "duration",
-	  label: "Duration",
+	  toggleLabel: "Duration",
 	  optionLabel: "Time to complete",
 	  options: ["Any duration", "About 15 minutes", "15 minutes to 1 hour", "1 to 2 hours", "2 to 4 hours", "4 hours +"],
-	  type: "slider"
+	  default_option: "Any duration",
+	  interface_type: "slider"
 	}, {
 	  name: "difficulty",
-	  label: "Difficulty",
-	  optionGroups: [{
-	    label: false,
-	    options: ["Beginner", "Intermediate", "Advanced"]
-	  }],
-	  type: "pills"
+	  toggleLabel: "Difficulty",
+	  options: ["Beginner", "Intermediate", "Advanced"],
+	  interface_type: "pills"
 	}, {
 	  name: "age-range",
-	  label: "Age Range",
-	  optionGroups: [{
-	    label: false,
-	    options: ["Kids", "Teens", "Adults"]
-	  }],
-	  type: "pills"
+	  toggleLabel: "Age Range",
+	  options: ["Kids", "Teens", "Adults"],
+	  interface_type: "pills"
 	}, {
 	  name: "web-lit-skills",
-	  label: "Web Literacy Skills",
-	  optionGroups: [{
-	    label: false,
-	    options: ["Design", "Code", "Compose", "Revise", "Remix", "Evaluate", "Sythesize", "Navigate", "Search", "Connect", "Protect", "Open", "Practice", "Contribute", "Share"]
-	  }, {
-	    label: "21st Century Skills",
+	  toggleLabel: "Web Literacy Skills",
+	  options: ["Design", "Code", "Compose", "Revise", "Remix", "Evaluate", "Sythesize", "Navigate", "Search", "Connect", "Protect", "Open", "Practice", "Contribute", "Share"],
+	  more_options: [{
+	    name: "century-skills",
+	    optionLabel: "21st Century Skills",
 	    options: ["Problem Solving", "Communication", "Creativity", "Collaboration"]
 	  }],
-	  type: "pills"
+	  interface_type: "pills"
 	}];
 
 	module.exports = filterOptions;
@@ -294,20 +288,12 @@
 	  render: function render() {
 	    return React.createElement(
 	      "div",
-	      null,
+	      { className: "search-field" },
 	      React.createElement(
-	        "div",
-	        { className: "search-ui" },
-	        React.createElement(
-	          "span",
-	          { className: "input-wrapper" },
-	          React.createElement("input", { ref: "searchInput", onKeyUp: this.keyDown, className: "search", placeholder: "Search by topic, description or tag", type: "text" }),
-	          this.state.hasTerm ? React.createElement(
-	            "a",
-	            { onClick: this.clearSearch, href: "#" },
-	            "+"
-	          ) : null
-	        )
+	        "span",
+	        { className: "input-wrapper" },
+	        React.createElement("input", { ref: "searchInput", onKeyUp: this.keyDown, className: "search", placeholder: "Search by topic, description or tag", type: "text" }),
+	        this.state.hasTerm ? React.createElement("a", { onClick: this.clearSearch, href: "#" }) : null
 	      )
 	    );
 	  }
@@ -378,15 +364,29 @@
 
 	    var filterData = this.props.filterData;
 
-	    var optionUI; // This is returned and injected in the render function
+	    var optionUI; // holds the final UI markup
 
 	    var that = this;
 
-	    // If this filter is a Pills type
-	    if (filterData.type == "pills") {
+	    if (filterData.interface_type == "pills") {
+	      var optionGroups = []; // Will create an array of all the option sets to iterate over
 
-	      // an optionGroup is a set of related pills
-	      optionUI = filterData.optionGroups.map(function (optionGroup) {
+	      optionGroups.push({
+	        name: filterData.name,
+	        options: filterData.options,
+	        optionLabel: filterData.optionLabel || false
+	      });
+
+	      if (filterData.more_options) {
+	        for (var i = 0; i < filterData.more_options.length; i++) {
+	          var optionGroup = filterData.more_options[i];
+	          optionGroups.push(optionGroup);
+	        }
+	      }
+
+	      var that = this;
+
+	      optionUI = optionGroups.map(function (optionGroup) {
 
 	        var optionSet = optionGroup.options.map(function (item) {
 	          var enabled = false;
@@ -398,29 +398,24 @@
 	          return React.createElement(FilterOption, { category: filterData.name, enabled: enabled, changeOption: that.props.setOption, label: item });
 	        });
 
-	        // Some option groups have a label, if so, add it before all the options
-	        if (optionGroup.label) {
-	          optionSet.unshift(React.createElement(
-	            "strong",
-	            { className: "label" },
-	            " ",
-	            optionGroup.label,
-	            " "
-	          ));
-	        }
-
 	        return React.createElement(
 	          "div",
 	          { className: "option-set" },
-	          " ",
-	          optionSet,
-	          " "
+	          optionGroup.optionLabel ? React.createElement(
+	            "strong",
+	            { className: "label" },
+	            " ",
+	            optionGroup.optionLabel,
+	            " "
+	          ) : null,
+	          optionSet
 	        );
 	      });
 	    }
 
-	    if (filterData.type == "slider") {
-	      var value = filterData.options[0]; // Sets default option to the first option
+	    if (filterData.interface_type == "slider") {
+	      var value = filterData.default_option || filterData.options[0]; // Sets default value if available
+
 	      if (filterData.enabledOptions) {
 	        if (filterData.enabledOptions.length > 0) {
 	          value = filterData.enabledOptions[0];
@@ -459,19 +454,15 @@
 	"use strict";
 
 	// Pill for each individual filter option
+
 	var FilterOption = React.createClass({
 	  displayName: "FilterOption",
 
 	  gotClicked: function gotClicked() {
-	    // Sends the opposite value of it's current
 	    this.props.changeOption(this.props.category, this.props.label, !this.props.enabled);
 	  },
 	  getClass: function getClass() {
-	    if (this.props.enabled) {
-	      return "filter-option active";
-	    } else {
-	      return "filter-option";
-	    }
+	    return this.props.enabled ? "filter-option active" : "filter-option";
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -535,7 +526,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      "div",
-	      { className: "duration-slider" },
+	      { className: "slider-with-labels" },
 	      React.createElement(
 	        "strong",
 	        null,
