@@ -38,7 +38,7 @@ var FilterWrapper =  React.createClass({
               enabled = true;
             }
           }
-          return ( <FilterOption category={ filterData.name} enabled={ enabled } changeOption={ that.props.setOption } label={item} /> )
+          return ( <FilterOption category={ optionGroup.name} enabled={ enabled } changeOption={ that.props.setOption } label={item} /> )
         });
 
         return (

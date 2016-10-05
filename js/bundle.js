@@ -395,7 +395,7 @@
 	              enabled = true;
 	            }
 	          }
-	          return React.createElement(FilterOption, { category: filterData.name, enabled: enabled, changeOption: that.props.setOption, label: item });
+	          return React.createElement(FilterOption, { category: optionGroup.name, enabled: enabled, changeOption: that.props.setOption, label: item });
 	        });
 
 	        return React.createElement(
