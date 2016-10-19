@@ -2,6 +2,8 @@
 
 .filter-wrapper {
 
+  padding-top: 15px;
+
   .arrow-wrapper {
     position: relative;
     height: 15px;
@@ -41,6 +43,38 @@
         width: 50%;
         border-top: solid 1px rgba(0,0,0,.15);
       }
+    }
+  }
+}
+
+
+
+@media all and (max-width: 600px) {
+  .filter-wrapper {
+
+    padding-top: 13px;
+
+    .filters {
+      border-radius: 8px;
+      padding: 10px 5px;
+      border-top: solid 2px rgba(0,0,0,.05);
+      background: #248fd1;
+
+      .option-set + .option-set {
+        &:before {
+          border-top: solid 1px rgba(255,255,255,.2);
+        }
+      }
+    }
+
+    .arrow-wrapper {
+      display: none;
+    }
+    
+    strong.label {
+      display: block;
+      margin: 10px 0 15px 0;
+      color: white;
     }
   }
 }

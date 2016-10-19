@@ -3,11 +3,21 @@
 .search-field {
 
   input {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     border-bottom: solid 2px rgba(0,0,0,.1);
     transition: border .15s ease-out;
     font-size: 1.25em;
+
+    @media all and (max-width: 600px) {
+      font-size: 1em;
+      text-align: center;
+    }
+
+
   }
+  
+  
 
   &[active] input {
    border-bottom: solid 2px rgba(0,0,0,.4);

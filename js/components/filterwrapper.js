@@ -17,6 +17,8 @@ var FilterWrapper =  React.createClass({
 
         var optionSet = optionGroup.options.map(function(item){
           var enabled = false;
+          
+          console.log(item);
 
           if(optionGroup.enabledOptions){
             if(optionGroup.enabledOptions.indexOf(item) > -1) {

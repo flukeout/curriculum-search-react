@@ -40,8 +40,6 @@ var SearchWrapper = React.createClass({
 
   setOption: function(category, optionName, status){
 
-    console.log("setOption",category,optionName,status);
-
     var options = this.state.enabledFilters;
 
     if(!options[category]) {
@@ -163,10 +161,12 @@ var SearchWrapper = React.createClass({
       <div>
         <SearchField onUpdate={ this.getSearchTerm }/>
         <div className="filter-toggles">
-          Filters { filterToggles }
+          <span className="label">Filters</span> { filterToggles }
           <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset">Reset</a>
         </div>
         { showFilters ? <FilterWrapper arrowPosition={ this.state.arrowposition } setOption={ this.setOption } filterData={ this.getFilterData() } /> : null }
+        
+        <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset-bottom">Reset Filters</a>
 
         <div className="code">
 

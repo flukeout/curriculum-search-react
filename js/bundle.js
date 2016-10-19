@@ -90,8 +90,6 @@
 
 	  setOption: function setOption(category, optionName, status) {
 
-	    console.log("setOption", category, optionName, status);
-
 	    var options = this.state.enabledFilters;
 
 	    if (!options[category]) {
@@ -216,7 +214,12 @@
 	      React.createElement(
 	        "div",
 	        { className: "filter-toggles" },
-	        "Filters ",
+	        React.createElement(
+	          "span",
+	          { className: "label" },
+	          "Filters"
+	        ),
+	        " ",
 	        filterToggles,
 	        React.createElement(
 	          "a",
@@ -225,6 +228,11 @@
 	        )
 	      ),
 	      showFilters ? React.createElement(FilterWrapper, { arrowPosition: this.state.arrowposition, setOption: this.setOption, filterData: this.getFilterData() }) : null,
+	      React.createElement(
+	        "a",
+	        { href: "#", style: resetLinkStyle, onClick: this.resetFilters, className: "reset-bottom" },
+	        "Reset Filters"
+	      ),
 	      React.createElement(
 	        "div",
 	        { className: "code" },
@@ -399,6 +407,8 @@
 
 	        var optionSet = optionGroup.options.map(function (item) {
 	          var enabled = false;
+
+	          console.log(item);
 
 	          if (optionGroup.enabledOptions) {
 	            if (optionGroup.enabledOptions.indexOf(item) > -1) {
