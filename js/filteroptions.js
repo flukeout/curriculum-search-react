@@ -21,8 +21,8 @@ var filterOptions = [
   },
   {
     name: "age-range",
-    toggleLabel : "Age Range",
-    options: ["Kids", "Teens", "Adults"],
+    toggleLabel : "Ages",
+    options: ["Everyone", "13+"],
     interface_type : "pills"
   },
   {

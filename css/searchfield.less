@@ -8,13 +8,6 @@
     border-bottom: solid 2px rgba(0,0,0,.1);
     transition: border .15s ease-out;
     font-size: 1.25em;
-
-    @media all and (max-width: 600px) {
-      font-size: 1em;
-      text-align: center;
-    }
-
-
   }
   
   
@@ -25,6 +18,20 @@
 
   .input-wrapper {
     position: relative;
+
+    .icon {
+      background-image: ~"url(./images/search.svg)";
+      background-position: center;
+      background-size: 20px;
+      background-repeat: no-repeat;
+      position: absolute;
+      height: 30px;
+      width: 20px;
+      right: 0;
+      top: -4px;
+      opacity: .3;
+      
+    }
 
     a {
       position: absolute;
@@ -49,3 +56,24 @@
   }
 }
 
+
+
+@media all and (max-width: 600px) {
+  .search-field {
+    input {
+      font-size: 1em;      
+    }
+    
+    .input-wrapper .icon {
+      top: -3px;
+      
+      
+    }
+    
+    .input-wrapper a {
+      right: -5px;
+      bottom: -3px;
+    }
+  }
+
+}

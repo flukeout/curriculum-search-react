@@ -27,6 +27,7 @@ var SearchField = React.createClass({
         <span className="input-wrapper">
           <input ref="searchInput" onKeyUp={ this.keyDown } className="search" placeholder="Search by topic, description or tag" type="text"/>
           { this.state.hasTerm ? <a onClick={ this.clearSearch } href="#"></a>  : null }
+          { this.state.hasTerm ? null : <span className="icon"></span> }
         </span>
       </div>
     );

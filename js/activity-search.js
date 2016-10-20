@@ -145,7 +145,7 @@ var SearchWrapper = React.createClass({
         expanded = true;
       }
 
-      return ( <FilterToggle expanded={ expanded } reportCenter={ that.updateArrowPosition } enabled={ active } onClick={ that.changeFilter } label={ el.toggleLabel } filtername={ el.name }/> )
+      return ( <FilterToggle key={ el.name } expanded={ expanded } reportCenter={ that.updateArrowPosition } enabled={ active } onClick={ that.changeFilter } label={ el.toggleLabel } filtername={ el.name }/> )
     });
 
     // Should we show the filters menu?

@@ -16,17 +16,15 @@ var FilterWrapper =  React.createClass({
       if(optionGroup.interface_type == "pills") {
 
         var optionSet = optionGroup.options.map(function(item){
-          var enabled = false;
-          
-          console.log(item);
+        var enabled = false;
 
-          if(optionGroup.enabledOptions){
-            if(optionGroup.enabledOptions.indexOf(item) > -1) {
-              enabled = true;
-            }
+        if(optionGroup.enabledOptions){
+          if(optionGroup.enabledOptions.indexOf(item) > -1) {
+            enabled = true;
           }
-          return ( <FilterOption category={ optionGroup.name} enabled={ enabled } changeOption={ that.props.setOption } label={item} /> )
-        });
+        }
+        return ( <FilterOption key={ item } category={ optionGroup.name } enabled={ enabled } changeOption={ that.props.setOption } label={item} /> )
+      });
 
         return (
           <div className="option-set">

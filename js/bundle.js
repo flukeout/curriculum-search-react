@@ -195,7 +195,7 @@
 	        expanded = true;
 	      }
 
-	      return React.createElement(FilterToggle, { expanded: expanded, reportCenter: that.updateArrowPosition, enabled: active, onClick: that.changeFilter, label: el.toggleLabel, filtername: el.name });
+	      return React.createElement(FilterToggle, { key: el.name, expanded: expanded, reportCenter: that.updateArrowPosition, enabled: active, onClick: that.changeFilter, label: el.toggleLabel, filtername: el.name });
 	    });
 
 	    // Should we show the filters menu?
@@ -270,8 +270,8 @@
 	  interface_type: "pills"
 	}, {
 	  name: "age-range",
-	  toggleLabel: "Age Range",
-	  options: ["Kids", "Teens", "Adults"],
+	  toggleLabel: "Ages",
+	  options: ["Everyone", "13+"],
 	  interface_type: "pills"
 	}, {
 	  name: "web-lit-skills",
@@ -326,7 +326,8 @@
 	        "span",
 	        { className: "input-wrapper" },
 	        React.createElement("input", { ref: "searchInput", onKeyUp: this.keyDown, className: "search", placeholder: "Search by topic, description or tag", type: "text" }),
-	        this.state.hasTerm ? React.createElement("a", { onClick: this.clearSearch, href: "#" }) : null
+	        this.state.hasTerm ? React.createElement("a", { onClick: this.clearSearch, href: "#" }) : null,
+	        this.state.hasTerm ? null : React.createElement("span", { className: "icon" })
 	      )
 	    );
 	  }
@@ -408,14 +409,12 @@
 	        var optionSet = optionGroup.options.map(function (item) {
 	          var enabled = false;
 
-	          console.log(item);
-
 	          if (optionGroup.enabledOptions) {
 	            if (optionGroup.enabledOptions.indexOf(item) > -1) {
 	              enabled = true;
 	            }
 	          }
-	          return React.createElement(FilterOption, { category: optionGroup.name, enabled: enabled, changeOption: that.props.setOption, label: item });
+	          return React.createElement(FilterOption, { key: item, category: optionGroup.name, enabled: enabled, changeOption: that.props.setOption, label: item });
 	        });
 
 	        return React.createElement(
