@@ -1,10 +1,15 @@
 // Filter options JSON
 var filterOptions = require("./filteroptions.js");
+var activityData = require("./activitydata.js");
 
 // Components
 var SearchField =   require("./components/searchfield.js");
 var FilterToggle =  require("./components/filtertoggle.js");
 var FilterWrapper = require("./components/filterwrapper.js");
+var ResultsTitle = require("./components/resultstitle.js");
+
+var ActivityItem = require("./components/activityitem.js");
+
 
 var SearchWrapper = React.createClass({
 
@@ -13,7 +18,8 @@ var SearchWrapper = React.createClass({
       showFilter: false,                          // Keeps track of which filter to currently show
       filterOptions : this.props.filterOptions,   // All of the filter data
       enabledFilters : {},                        // All of the selected filters
-      searchTerm : ""                            // Search terms
+      searchTerm : "",                            // Search terms
+      activityData : this.props.activityData 
     }
   },
 
@@ -156,17 +162,31 @@ var SearchWrapper = React.createClass({
     var resetLinkStyle = {
       opacity: showReset ? 1 : 0
     }
+    
+    var activityCount = this.state.activityData.length;
+
+    var activities = this.state.activityData.map(function(activityDetails){
+      return ( <ActivityItem details={ activityDetails }/> )
+    });
+
 
     return (
       <div>
-        <SearchField onUpdate={ this.getSearchTerm }/>
-        <div className="filter-toggles">
-          <span className="label">Filters</span> { filterToggles }
-          <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset">Reset</a>
-        </div>
-        { showFilters ? <FilterWrapper arrowPosition={ this.state.arrowposition } setOption={ this.setOption } filterData={ this.getFilterData() } /> : null }
+        <div className="centered">
+          <SearchField onUpdate={ this.getSearchTerm }/>
+          <div className="filter-toggles">
+            <span className="label">Filters</span> { filterToggles }
+            <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset">Reset</a>
+          </div>
+          { showFilters ? <FilterWrapper arrowPosition={ this.state.arrowposition } setOption={ this.setOption } filterData={ this.getFilterData() } /> : null }
         
-        <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset-bottom">Reset Filters</a>
+          <a href="#" style={ resetLinkStyle } onClick={ this.resetFilters } className="reset-bottom">Reset Filters</a>
+        </div>
+
+        <div className="result-list-wrapper">
+          <ResultsTitle resultcount= { activityCount }/>
+          { activities }
+        </div>
 
         <div className="code">
 
@@ -183,6 +203,6 @@ var SearchWrapper = React.createClass({
 
 
 ReactDOM.render(
-  <SearchWrapper filterOptions={filterOptions}/>,
+  <SearchWrapper filterOptions={filterOptions} activityData={activityData}/>,
   document.getElementById('wrapper')
 );
