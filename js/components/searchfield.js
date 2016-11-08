@@ -6,13 +6,25 @@ var SearchField = React.createClass({
       hasTerm : false
     }
   },
+  sendTimeout : false,
   keyDown : function(){
     var inputValue = this.refs.searchInput.value;
     inputValue = inputValue.trim();
-    this.props.onUpdate(inputValue);
+
+    var that = this;
+
+    clearTimeout(this.sendTimeout);
+
+    this.sendTimeout = setTimeout(function(){
+      that.sendSearchString(inputValue);
+    },400);
+
     this.setState({
       hasTerm : inputValue.length > 0
     });
+  },
+  sendSearchString : function(string){
+    this.props.onUpdate(string);
   },
   clearSearch : function(){
     this.refs.searchInput.value = "";
@@ -20,6 +32,8 @@ var SearchField = React.createClass({
       hasTerm : false
     });
     this.props.onUpdate("");
+     clearTimeout(this.sendTimeout);
+     this.sendSearchString("");
   },
   render: function() {
     return (
