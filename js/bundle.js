@@ -412,13 +412,25 @@
 	      hasTerm: false
 	    };
 	  },
+	  sendTimeout: false,
 	  keyDown: function keyDown() {
 	    var inputValue = this.refs.searchInput.value;
 	    inputValue = inputValue.trim();
-	    this.props.onUpdate(inputValue);
+
+	    var that = this;
+
+	    clearTimeout(this.sendTimeout);
+
+	    this.sendTimeout = setTimeout(function () {
+	      that.sendSearchString(inputValue);
+	    }, 400);
+
 	    this.setState({
 	      hasTerm: inputValue.length > 0
 	    });
+	  },
+	  sendSearchString: function sendSearchString(string) {
+	    this.props.onUpdate(string);
 	  },
 	  clearSearch: function clearSearch() {
 	    this.refs.searchInput.value = "";
@@ -426,6 +438,8 @@
 	      hasTerm: false
 	    });
 	    this.props.onUpdate("");
+	    clearTimeout(this.sendTimeout);
+	    this.sendSearchString("");
 	  },
 	  render: function render() {
 	    return React.createElement(
