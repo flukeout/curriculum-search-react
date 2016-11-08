@@ -437,9 +437,8 @@
 	    this.setState({
 	      hasTerm: false
 	    });
-	    this.props.onUpdate("");
 	    clearTimeout(this.sendTimeout);
-	    this.sendSearchString("");
+	    this.sendSearchString(false);
 	  },
 	  render: function render() {
 	    return React.createElement(

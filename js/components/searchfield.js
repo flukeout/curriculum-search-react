@@ -31,9 +31,8 @@ var SearchField = React.createClass({
     this.setState({
       hasTerm : false
     });
-    this.props.onUpdate("");
-     clearTimeout(this.sendTimeout);
-     this.sendSearchString("");
+    clearTimeout(this.sendTimeout);
+    this.sendSearchString(false);
   },
   render: function() {
     return (
