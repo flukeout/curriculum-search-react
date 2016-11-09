@@ -94,6 +94,7 @@
 	  // Updates the enabledFilters object
 
 	  setOption: function setOption(category, optionName, status) {
+
 	    var options = this.state.enabledFilters;
 
 	    if (!options[category]) {
@@ -325,9 +326,25 @@
 	  "age_range": "Teens",
 	  "duration": "15 minutes to 1 hour",
 	  "twenty_first_century_skills": ["Problem Solving"],
-	  "teaching_kits": ["Web Literacy Basics"],
+	  "teaching_kits": [{
+	    "id": 5,
+	    "title": "Web Literacy Basics",
+	    "url": "https://kit.com",
+	    "short_description": "This six-part series helps learners become familiar with reading, writing and participating on the web. They'll discover the foundations of the web through production and collaboration. This is an ideal kit for Mozilla Clubs.",
+	    "description": "Learners get familiar with reading, writing and participating on the web in this six-part module. Discover the foundations of the web through production and collaboration.",
+	    "authors": ["Mozilla Learning"],
+	    "image_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum.png",
+	    "image_retina_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum%402x.png"
+	  }, {
+	    "id": 6,
+	    "title": "Offline Icebreakers",
+	    "url": "https://kit.com",
+	    "short_description": "Solve puzzles and play games to get to know your fellow learners and the web.",
+	    "authors": ["Mozilla", "Digital Corps", "ginger coons", "Marc Lesser", "Thomas Park", "Yofie Setiawan", "Karen Smith"],
+	    "image_url": "https://learning.mozilla.org/img/pages/offline-icebreakers/html-puzzleboxes.jpg"
+	  }],
 	  "authors": ["Mouse"],
-	  "weblit_skills": ["Search", "Synthesize", "Evaluate"],
+
 	  "locale": "en-US"
 	}, {
 	  "id": 2,
@@ -341,7 +358,6 @@
 	  "duration": "15 minutes to 1 hour",
 	  "tags": ["CSS", "Coding"],
 	  "twenty_first_century_skills": ["Problem Solving", "Communication", "Creativity"],
-	  "teaching_kits": ["Intermediate Web Literacy I: Intro to CSS"],
 	  "authors": ["Mozilla"],
 	  "weblit_skills": ["Code", "Compose", "Design", "Evaluate", "Remix", "Revise", "Research", "Search"],
 	  "locale": "en-US"
@@ -358,7 +374,6 @@
 	  "duration": "1 to 2 hours",
 	  "tags": ["HTML", "Offline"],
 	  "twenty_first_century_skills": ["Creativity"],
-	  "teaching_kits": ["Web Literacy Basics", "Offline Icebreakers"],
 	  "authors": ["Yofie Setiawan, Mozilla Indonesia"],
 	  "weblit_skills": ["Code", "Remix"],
 	  "locale": "en-US"
@@ -372,7 +387,23 @@
 	  "difficulty": "Advanced",
 	  "age_range": "Adults",
 	  "duration": "2 to 4 hours",
-	  "teaching_kits": ["Read, Write, and Participate with Webmaker"],
+	  "teaching_kits": [{
+	    "id": 5,
+	    "title": "Web Literacy Basics",
+	    "url": "https://kit.com",
+	    "short_description": "This six-part series helps learners become familiar with reading, writing and participating on the web. They'll discover the foundations of the web through production and collaboration. This is an ideal kit for Mozilla Clubs.",
+	    "description": "Learners get familiar with reading, writing and participating on the web in this six-part module. Discover the foundations of the web through production and collaboration.",
+	    "authors": ["Mozilla Learning"],
+	    "image_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum.png",
+	    "image_retina_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum%402x.png"
+	  }, {
+	    "id": 6,
+	    "title": "Offline Icebreakers",
+	    "url": "https://kit.com",
+	    "short_description": "Solve puzzles and play games to get to know your fellow learners and the web.",
+	    "authors": ["Mozilla", "Digital Corps", "ginger coons", "Marc Lesser", "Thomas Park", "Yofie Setiawan", "Karen Smith"],
+	    "image_url": "https://learning.mozilla.org/img/pages/offline-icebreakers/html-puzzleboxes.jpg"
+	  }],
 	  "authors": ["Laura", "Bobby"],
 	  "weblit_skills": ["Design", "Remix", "Compose"],
 	  "locale": "en-US"
@@ -387,7 +418,6 @@
 	  "difficulty": "Beginner",
 	  "age_range": "Adults",
 	  "duration": "15 minutes to 1 hour",
-	  "teaching_kits": ["Protect Your Data"],
 	  "authors": ["Hive Toronto"],
 	  "weblit_skills": ["Privacy", "Open Practices"],
 	  "locale": "en-US"
@@ -731,38 +761,62 @@
 
 	"use strict";
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	// Text input search field with a clear X button
 
 	var ActivityItem = React.createClass({
 	  displayName: "ActivityItem",
 
+	  showItemList: function showItemList(label, items) {
+	    var that = this;
+	    if (items && items.length > 0) {
+	      var itemList = items.map(function (item) {
+	        var comma;
+	        if (items.indexOf(item) < items.length - 1) {
+	          comma = ",";
+	        }
+	        if ((typeof item === "undefined" ? "undefined" : _typeof(item)) == "object") {
+	          return React.createElement(
+	            "span",
+	            null,
+	            React.createElement(
+	              "a",
+	              { href: item.url },
+	              item.title
+	            ),
+	            comma,
+	            " "
+	          );
+	        } else {
+	          return React.createElement(
+	            "span",
+	            null,
+	            item,
+	            comma,
+	            " "
+	          );
+	        }
+	      });
+	      return React.createElement(
+	        "div",
+	        { className: "tag-list" },
+	        React.createElement(
+	          "strong",
+	          null,
+	          label,
+	          ": "
+	        ),
+	        itemList
+	      );
+	    }
+	  },
 	  render: function render() {
-
 	    var that = this;
 
-	    var litSkills = this.props.details.weblit_skills;
-	    if (litSkills) {
-	      var litSkills = this.props.details.weblit_skills.map(function (skill) {
-	        that.props.details.weblit_skills.indexOf(skill) > 0 ? skill = ", " + skill : null;
-	        return React.createElement(
-	          "span",
-	          null,
-	          skill
-	        );
-	      });
-	    }
-
-	    var centurySkills = this.props.details.twenty_first_century_skills;
-	    if (centurySkills) {
-	      var centurySkills = this.props.details.twenty_first_century_skills.map(function (skill) {
-	        that.props.details.twenty_first_century_skills.indexOf(skill) > 0 ? skill = ", " + skill : null;
-	        return React.createElement(
-	          "span",
-	          null,
-	          skill
-	        );
-	      });
-	    }
+	    var thumbnailStyle = {
+	      backgroundImage: "url(" + this.props.details.image_url + ")"
+	    };
 
 	    var authors = this.props.details.authors.map(function (author) {
 	      that.props.details.authors.indexOf(author) > 0 ? author = ", " + author : null;
@@ -773,13 +827,9 @@
 	      );
 	    });
 
-	    var thumbnailStyle = {
-	      backgroundImage: "url(" + this.props.details.image_url + ")"
-	    };
-
 	    return React.createElement(
 	      "div",
-	      { className: "result list" },
+	      { className: "result-item list" },
 	      React.createElement("div", { style: thumbnailStyle, className: "thumbnail" }),
 	      React.createElement(
 	        "h1",
@@ -815,28 +865,9 @@
 	        { className: "description" },
 	        this.props.details.description
 	      ),
-	      React.createElement(
-	        "div",
-	        { className: "tag-list" },
-	        React.createElement(
-	          "strong",
-	          null,
-	          "Web Lit Skills"
-	        ),
-	        " ",
-	        litSkills
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "tag-list" },
-	        React.createElement(
-	          "strong",
-	          null,
-	          "21st Century Skills"
-	        ),
-	        " ",
-	        centurySkills
-	      )
+	      this.showItemList("Web Lit Skills", this.props.details.weblit_skills),
+	      this.showItemList("21st Century Skills", this.props.details.twenty_first_century_skills),
+	      this.showItemList("Appears in", this.props.details.teaching_kits)
 	    );
 	  }
 	});

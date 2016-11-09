@@ -1,37 +1,41 @@
 // Text input search field with a clear X button
 
 var ActivityItem = React.createClass({
+  showItemList : function(label, items) {
+    var that = this;
+    if(items && items.length > 0) {
+      var itemList =  items.map(function(item){
+        var comma;
+        if(items.indexOf(item) < items.length - 1){
+          comma = ","
+        }
+        if(typeof item == "object") {
+          return ( <span><a href={item.url}>{ item.title }</a>{ comma } </span> )
+        } else {
+          return ( <span>{ item }{ comma } </span> )
+        }
+      });
+      return (
+        <div className="tag-list">
+          <strong>{ label }: </strong>{ itemList }
+        </div>
+      )
+    }
+  },
   render: function() {
-
     var that = this;
 
-    var litSkills = this.props.details.weblit_skills;
-    if(litSkills) {
-      var litSkills =  this.props.details.weblit_skills.map(function(skill){
-        that.props.details.weblit_skills.indexOf(skill) > 0 ? skill = ", " + skill : null;
-        return ( <span>{ skill }</span> )
-      });
-    }
+    var thumbnailStyle = {
+      backgroundImage: "url(" + this.props.details.image_url + ")"
+    };
 
-    var centurySkills = this.props.details.twenty_first_century_skills;
-    if(centurySkills) {
-      var centurySkills =  this.props.details.twenty_first_century_skills.map(function(skill){
-        that.props.details.twenty_first_century_skills.indexOf(skill) > 0 ? skill = ", " + skill : null;
-        return ( <span>{ skill }</span> )
-      });
-    }
-  
     var authors = this.props.details.authors.map(function(author){
       that.props.details.authors.indexOf(author) > 0 ? author = ", " + author : null;
       return ( <span>{ author }</span> )
     });
     
-    var thumbnailStyle = {
-      backgroundImage: "url(" + this.props.details.image_url + ")"
-    };
-    
     return (
-      <div className="result list">
+      <div className="result-item list">
         <div style={ thumbnailStyle } className="thumbnail"></div>
         <h1 className="title"><a href={ this.props.details.url }>{ this.props.details.title }</a></h1>
         <div className="meta">
@@ -42,12 +46,10 @@ var ActivityItem = React.createClass({
         <p className="description">
           { this.props.details.description }
         </p>
-        <div className="tag-list">
-          <strong>Web Lit Skills</strong> { litSkills }
-        </div>
-        <div className="tag-list">
-          <strong>21st Century Skills</strong> { centurySkills }
-        </div>
+
+        { this.showItemList("Web Lit Skills", this.props.details.weblit_skills) }
+        { this.showItemList("21st Century Skills", this.props.details.twenty_first_century_skills) }
+        { this.showItemList("Appears in", this.props.details.teaching_kits) }
       </div>
     );
   }

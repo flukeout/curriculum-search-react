@@ -1,4 +1,5 @@
-var activityData = [{
+var activityData = [
+    {
     "id": 1,
     "title": "Kraken the Code",
     "subtitle": "Understanding credibility",
@@ -10,9 +11,25 @@ var activityData = [{
     "age_range": "Teens",
     "duration": "15 minutes to 1 hour",
     "twenty_first_century_skills": [ "Problem Solving" ],
-    "teaching_kits": [ "Web Literacy Basics" ],
+    "teaching_kits": [{
+      "id": 5,
+      "title": "Web Literacy Basics",
+      "url" : "https://kit.com",
+      "short_description": "This six-part series helps learners become familiar with reading, writing and participating on the web. They'll discover the foundations of the web through production and collaboration. This is an ideal kit for Mozilla Clubs.",
+      "description": "Learners get familiar with reading, writing and participating on the web in this six-part module. Discover the foundations of the web through production and collaboration.",
+      "authors": [ "Mozilla Learning" ],
+      "image_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum.png",
+      "image_retina_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum%402x.png"
+      },{
+      "id": 6,
+      "title": "Offline Icebreakers",
+      "url" : "https://kit.com",
+      "short_description": "Solve puzzles and play games to get to know your fellow learners and the web.",
+      "authors": [ "Mozilla", "Digital Corps", "ginger coons", "Marc Lesser", "Thomas Park", "Yofie Setiawan", "Karen Smith" ],
+      "image_url": "https://learning.mozilla.org/img/pages/offline-icebreakers/html-puzzleboxes.jpg"
+    }],
     "authors": [ "Mouse" ],
-    "weblit_skills": [ "Search", "Synthesize", "Evaluate" ],
+
     "locale": "en-US"
   },
   {
@@ -27,7 +44,6 @@ var activityData = [{
     "duration": "15 minutes to 1 hour",
     "tags": [ "CSS", "Coding" ],
     "twenty_first_century_skills": [ "Problem Solving", "Communication", "Creativity" ],
-    "teaching_kits": [ "Intermediate Web Literacy I: Intro to CSS" ],
     "authors": [ "Mozilla" ],
     "weblit_skills": [ "Code", "Compose", "Design", "Evaluate", "Remix", "Revise", "Research", "Search" ],
     "locale": "en-US"
@@ -45,7 +61,6 @@ var activityData = [{
     "duration": "1 to 2 hours",
     "tags": [ "HTML", "Offline" ],
     "twenty_first_century_skills": [ "Creativity" ],
-    "teaching_kits": [ "Web Literacy Basics", "Offline Icebreakers" ],
     "authors": [ "Yofie Setiawan, Mozilla Indonesia" ],
     "weblit_skills": [ "Code", "Remix" ],
     "locale": "en-US"
@@ -60,7 +75,23 @@ var activityData = [{
     "difficulty": "Advanced",
     "age_range": "Adults",
     "duration": "2 to 4 hours",
-    "teaching_kits": [ "Read, Write, and Participate with Webmaker" ],
+    "teaching_kits": [{
+      "id": 5,
+      "title": "Web Literacy Basics",
+      "url" : "https://kit.com",
+      "short_description": "This six-part series helps learners become familiar with reading, writing and participating on the web. They'll discover the foundations of the web through production and collaboration. This is an ideal kit for Mozilla Clubs.",
+      "description": "Learners get familiar with reading, writing and participating on the web in this six-part module. Discover the foundations of the web through production and collaboration.",
+      "authors": [ "Mozilla Learning" ],
+      "image_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum.png",
+      "image_retina_url": "https://learning.mozilla.org/img/pages/activities/img-activity-curriculum%402x.png"
+      },{
+      "id": 6,
+      "title": "Offline Icebreakers",
+      "url" : "https://kit.com",
+      "short_description": "Solve puzzles and play games to get to know your fellow learners and the web.",
+      "authors": [ "Mozilla", "Digital Corps", "ginger coons", "Marc Lesser", "Thomas Park", "Yofie Setiawan", "Karen Smith" ],
+      "image_url": "https://learning.mozilla.org/img/pages/offline-icebreakers/html-puzzleboxes.jpg"
+    }],
     "authors": [ "Laura", "Bobby" ],
     "weblit_skills": [ "Design", "Remix", "Compose" ],
     "locale": "en-US"
@@ -76,7 +107,6 @@ var activityData = [{
     "difficulty": "Beginner",
     "age_range": "Adults",
     "duration": "15 minutes to 1 hour",
-    "teaching_kits": [ "Protect Your Data" ],
     "authors": [ "Hive Toronto" ],
     "weblit_skills": [ "Privacy", "Open Practices" ],
     "locale": "en-US"
