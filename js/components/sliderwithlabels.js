@@ -15,12 +15,15 @@ var SliderWithLabels =  React.createClass({
   change: function(e){
     var val = this.refs.input.value;
 
-    this.props.changeOption(this.props.category, this.state.value, false);
-    this.props.changeOption(this.props.category, this.getLabel(val), true);
+    // A '0' value means "any duration", so we can treat this filter as disabled.
+    var enabled = true;
+    val != 0 ? null : enabled = false;
+
+    this.props.changeOption(this.props.category, this.getLabel(val), enabled);
 
     this.setState({
       value : this.getLabel(val)
-    })
+    });
   },
 
   // Get numerical value of the current label

@@ -94,7 +94,6 @@
 	  // Updates the enabledFilters object
 
 	  setOption: function setOption(category, optionName, status) {
-
 	    var options = this.state.enabledFilters;
 
 	    if (!options[category]) {
@@ -645,8 +644,11 @@
 	  change: function change(e) {
 	    var val = this.refs.input.value;
 
-	    this.props.changeOption(this.props.category, this.state.value, false);
-	    this.props.changeOption(this.props.category, this.getLabel(val), true);
+	    // A '0' value means "any duration", so we can treat this filter as disabled.
+	    var enabled = true;
+	    val != 0 ? null : enabled = false;
+
+	    this.props.changeOption(this.props.category, this.getLabel(val), enabled);
 
 	    this.setState({
 	      value: this.getLabel(val)
