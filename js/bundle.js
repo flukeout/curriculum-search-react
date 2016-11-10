@@ -734,9 +734,8 @@
 	    };
 	  },
 	  render: function render() {
-
-	    // Set the heading...
 	    var heading = "Popular Topics";
+
 	    if (this.props.resultcount > 0) {
 	      heading = this.props.resultcount + " Results";
 	    }
