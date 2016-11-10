@@ -184,7 +184,7 @@ var SearchWrapper = React.createClass({
         </div>
 
         <div className="result-list-wrapper">
-          <ResultsTitle resultcount= { activityCount }/>
+          <ResultsTitle resultcount={ activityCount } />
           { activities }
         </div>
 

@@ -7,18 +7,15 @@ var ResultsTitle = React.createClass({
     }
   },
   render: function() {
-    
-    // Set the heading...
     var heading = "Popular Topics"
+
     if(this.props.resultcount > 0) {
       heading = this.props.resultcount + " Results";
     }
 
     return (
       <div className="results-title">
-      <h3>
-        { heading }
-      </h3>
+        <h3>{ heading }</h3>
       </div>
     );
   }
