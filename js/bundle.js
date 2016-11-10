@@ -802,10 +802,9 @@
 	        "div",
 	        { className: "tag-list" },
 	        React.createElement(
-	          "strong",
+	          "h2",
 	          null,
-	          label,
-	          ": "
+	          label
 	        ),
 	        itemList
 	      );
@@ -830,7 +829,7 @@
 	    return React.createElement(
 	      "div",
 	      { className: "result-item list" },
-	      React.createElement("div", { style: thumbnailStyle, className: "thumbnail" }),
+	      React.createElement("a", { href: this.props.details.url, style: thumbnailStyle, className: "thumbnail" }),
 	      React.createElement(
 	        "h1",
 	        { className: "title" },

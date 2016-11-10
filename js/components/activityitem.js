@@ -17,7 +17,7 @@ var ActivityItem = React.createClass({
       });
       return (
         <div className="tag-list">
-          <strong>{ label }: </strong>{ itemList }
+          <h2>{ label }</h2>{ itemList }
         </div>
       )
     }
@@ -36,7 +36,7 @@ var ActivityItem = React.createClass({
     
     return (
       <div className="result-item list">
-        <div style={ thumbnailStyle } className="thumbnail"></div>
+        <a href={ this.props.details.url } style={ thumbnailStyle } className="thumbnail"></a>
         <h1 className="title"><a href={ this.props.details.url }>{ this.props.details.title }</a></h1>
         <div className="meta">
           <span className="difficulty">{ this.props.details.difficulty }</span>
