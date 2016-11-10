@@ -1,6 +1,9 @@
 // Filter options JSON
 var filterOptions = require("./filteroptions.js");
+
+// Data for sample search results for activites & collections
 var activityData = require("./activitydata.js");
+var collectionData = require("./collectiondata.js");
 
 // Components
 var SearchField =   require("./components/searchfield.js");
@@ -10,6 +13,7 @@ var ResultsTitle = require("./components/resultstitle.js");
 
 var ActivityItem = require("./components/activityitem.js");
 
+var CollectionItem = require("./components/collectionitem.js");
 
 var SearchWrapper = React.createClass({
 
@@ -19,7 +23,8 @@ var SearchWrapper = React.createClass({
       filterOptions : this.props.filterOptions,   // All of the filter data
       enabledFilters : {},                        // All of the selected filters
       searchTerm : "",                            // Search terms
-      activityData : this.props.activityData 
+      activityData : this.props.activityData,
+      collectionData : this.props.collectionData 
     }
   },
 
@@ -165,10 +170,15 @@ var SearchWrapper = React.createClass({
     
     var activityCount = this.state.activityData.length;
 
-    var activities = this.state.activityData.map(function(activityDetails){
-      return ( <ActivityItem details={ activityDetails }/> )
+    var activities = this.state.activityData.map(function(details){
+      return ( <ActivityItem details={ details }/> )
     });
 
+    var collectionCount = this.state.collectionData.length;
+
+    var collections = this.state.collectionData.map(function(details){
+      return ( <CollectionItem details={ details }/> )
+    });
 
     return (
       <div>
@@ -185,11 +195,11 @@ var SearchWrapper = React.createClass({
 
         <div className="result-list-wrapper">
           <ResultsTitle resultcount={ activityCount } />
+          { collections }
           { activities }
         </div>
 
         <div className="code">
-
         enabledFilters: { JSON.stringify(this.state.enabledFilters) }  <br/><br/>
         searchTerm: { JSON.stringify(this.state.searchTerm) }
         </div>
@@ -203,6 +213,6 @@ var SearchWrapper = React.createClass({
 
 
 ReactDOM.render(
-  <SearchWrapper filterOptions={filterOptions} activityData={activityData}/>,
+  <SearchWrapper filterOptions={filterOptions} collectionData={collectionData} activityData={activityData}/>,
   document.getElementById('wrapper')
 );

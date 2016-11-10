@@ -48,15 +48,20 @@
 
 	// Filter options JSON
 	var filterOptions = __webpack_require__(1);
+
+	// Data for sample search results for activites & collections
 	var activityData = __webpack_require__(2);
+	var collectionData = __webpack_require__(3);
 
 	// Components
-	var SearchField = __webpack_require__(3);
-	var FilterToggle = __webpack_require__(4);
-	var FilterWrapper = __webpack_require__(5);
-	var ResultsTitle = __webpack_require__(8);
+	var SearchField = __webpack_require__(4);
+	var FilterToggle = __webpack_require__(5);
+	var FilterWrapper = __webpack_require__(6);
+	var ResultsTitle = __webpack_require__(9);
 
-	var ActivityItem = __webpack_require__(9);
+	var ActivityItem = __webpack_require__(10);
+
+	var CollectionItem = __webpack_require__(11);
 
 	var SearchWrapper = React.createClass({
 	  displayName: "SearchWrapper",
@@ -68,7 +73,8 @@
 	      filterOptions: this.props.filterOptions, // All of the filter data
 	      enabledFilters: {}, // All of the selected filters
 	      searchTerm: "", // Search terms
-	      activityData: this.props.activityData
+	      activityData: this.props.activityData,
+	      collectionData: this.props.collectionData
 	    };
 	  },
 
@@ -214,8 +220,14 @@
 
 	    var activityCount = this.state.activityData.length;
 
-	    var activities = this.state.activityData.map(function (activityDetails) {
-	      return React.createElement(ActivityItem, { details: activityDetails });
+	    var activities = this.state.activityData.map(function (details) {
+	      return React.createElement(ActivityItem, { details: details });
+	    });
+
+	    var collectionCount = this.state.collectionData.length;
+
+	    var collections = this.state.collectionData.map(function (details) {
+	      return React.createElement(CollectionItem, { details: details });
 	    });
 
 	    return React.createElement(
@@ -252,6 +264,7 @@
 	        "div",
 	        { className: "result-list-wrapper" },
 	        React.createElement(ResultsTitle, { resultcount: activityCount }),
+	        collections,
 	        activities
 	      ),
 	      React.createElement(
@@ -269,7 +282,7 @@
 	  }
 	});
 
-	ReactDOM.render(React.createElement(SearchWrapper, { filterOptions: filterOptions, activityData: activityData }), document.getElementById('wrapper'));
+	ReactDOM.render(React.createElement(SearchWrapper, { filterOptions: filterOptions, collectionData: collectionData, activityData: activityData }), document.getElementById('wrapper'));
 
 /***/ },
 /* 1 */
@@ -431,6 +444,59 @@
 
 	"use strict";
 
+	var collectionData = [{
+	  "id": 1,
+	  "title": "Learning about Browsing",
+	  "activity_count": 4,
+	  "subtitle": "Understanding credibility",
+	  "description": "Learners use the Internet to solve the mystery of The Kraken, a legendary sea creature, while also learning about search terms, keywords, and how to assess the validity and relevance of web sources.",
+	  "image_url": "https://learning.mozilla.org/img/pages/web-lit-basics/img-kraken-code.jpg",
+	  "url": "https://mozilla.github.io/mozilla-club-activity-kraken-the-code",
+	  "authors": ["Mouse"],
+	  "locale": "en-US"
+	}, {
+	  "id": 2,
+	  "title": "CSS Basics II",
+	  "activity_count": 7,
+	  "subtitle": "Coding/Scripting, Composing, Design",
+	  "description": "Learners will use webfonts to create moods and tones on webpages, learning about coding, composing, designing, and remixing.",
+	  "image_url": "https://learning.mozilla.org/img/pages/intermediate-web-lit/letterpress.jpg",
+	  "url": "https://chadsansing.github.io/curriculum-testing/curriculum-migration/intermediate-web-lit-css-one-migrated/session02-css-fonts.html",
+	  "tags": ["CSS", "Coding"],
+	  "authors": ["Mozilla"],
+	  "locale": "en-US"
+	}, {
+	  "id": 3,
+	  "title": "Advanced HTML III",
+	  "activity_count": 2,
+	  "subtitle": "Understanding composing for the web",
+	  "description": "Learners race to sequence the paper boxes labeled with HTML tags, becoming familiar with the most common HTML tags and how to structure a web page.",
+	  "image_url": "https://learning.mozilla.org/img/pages/web-lit-basics/img-puzzle-boxes.jpg",
+	  "url": "https://mozilla.github.io/mozilla-club-activity-html-puzzle-boxes",
+	  "tags": ["HTML", "Offline"],
+	  "authors": ["Yofie Setiawan, Mozilla Indonesia"],
+	  "locale": "en-US"
+	}, {
+	  "id": 4,
+	  "title": "Storytelling Workshop",
+	  "subtitle": "Understanding Designing",
+	  "activity_count": 999,
+	  "description": "Learners will ideate, sketch and structure a story to create with Webmaker. By brainstorming offline, learners will start thinking about the different ways to create for the Web and get more comfortable with the idea of creating their own content.",
+	  "image_url": "https://learning.mozilla.org/img/pages/webmaker/designing-webmaker.jpg",
+	  "url": "http://mozilla.github.io/webmaker-curriculum/MobileWeb/design-webmaker-project.html",
+	  "difficulty": "Advanced",
+	  "authors": ["Laura", "Bobby"],
+	  "locale": "en-US"
+	}];
+
+	module.exports = collectionData;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+
 	// Text input search field with a clear X button
 
 	var SearchField = React.createClass({
@@ -487,7 +553,7 @@
 	module.exports = SearchField;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -533,13 +599,13 @@
 	module.exports = FilterToggle;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var FilterOption = __webpack_require__(6);
-	var SliderWithLabels = __webpack_require__(7);
+	var FilterOption = __webpack_require__(7);
+	var SliderWithLabels = __webpack_require__(8);
 
 	// This the gray box with all the filter options down below...
 	var FilterWrapper = React.createClass({
@@ -618,7 +684,7 @@
 	module.exports = FilterWrapper;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -650,7 +716,7 @@
 	module.exports = FilterOption;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -718,7 +784,7 @@
 	module.exports = SliderWithLabels;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -755,7 +821,7 @@
 	module.exports = ResultsTitle;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -871,6 +937,81 @@
 	});
 
 	module.exports = ActivityItem;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// Text input search field with a clear X button
+
+	var CollectionItem = React.createClass({
+	  displayName: "CollectionItem",
+
+	  render: function render() {
+	    var that = this;
+
+	    var thumbnailStyle = {
+	      backgroundImage: "url(" + this.props.details.image_url + ")"
+	    };
+
+	    var authors = this.props.details.authors.map(function (author) {
+	      that.props.details.authors.indexOf(author) > 0 ? author = ", " + author : null;
+	      return React.createElement(
+	        "span",
+	        null,
+	        author
+	      );
+	    });
+
+	    return React.createElement(
+	      "div",
+	      { className: "collection-item list" },
+	      React.createElement(
+	        "a",
+	        { href: this.props.details.url, style: thumbnailStyle, className: "thumbnail" },
+	        React.createElement(
+	          "span",
+	          { className: "activity-count" },
+	          this.props.details.activity_count,
+	          " activities"
+	        )
+	      ),
+	      React.createElement(
+	        "h1",
+	        { className: "title" },
+	        React.createElement(
+	          "a",
+	          { href: this.props.details.url },
+	          this.props.details.title
+	        )
+	      ),
+	      React.createElement(
+	        "h2",
+	        null,
+	        "Activity Collection"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "meta" },
+	        React.createElement(
+	          "span",
+	          { className: "author" },
+	          "By ",
+	          authors
+	        )
+	      ),
+	      React.createElement(
+	        "p",
+	        { className: "description" },
+	        this.props.details.description
+	      )
+	    );
+	  }
+	});
+
+	module.exports = CollectionItem;
 
 /***/ }
 /******/ ]);

@@ -26,13 +26,21 @@
       color: inherit;
       font-weight: inherit;
       margin: 0 3px;
-      padding: 8px 15px 7px 15px;
+      padding: 8px 15px 9px 15px;
       background: rgba(0,0,0,.1);
       border-radius: 19px;
       cursor: pointer;
       position: relative;
       box-sizing: border-box;
-      // transition: background .15s ease-out;
+      transition: top .1s ease-out;
+      top: 0;
+      position: relative;
+      
+      &:hover {
+        opacity: .9;
+
+        top: -2px;
+      }
 
       &.active, &.active.filter-active {
         background: @link;
