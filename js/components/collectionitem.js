@@ -16,10 +16,10 @@ var CollectionItem = React.createClass({
     return (
       <div className="collection-item list">
         <a href={ this.props.details.url } style={ thumbnailStyle } className="thumbnail">
-        <span className="activity-count">{ this.props.details.activity_count } activities</span>
       </a>
         <h1 className="title"><a href={ this.props.details.url }>{ this.props.details.title }</a></h1>
-        <h2>Activity Collection</h2>
+        <span className="activity-count"><strong>Collection :</strong> { this.props.details.activity_count } activities</span>
+        { /* <h2>Activity Collection</h2> */ }
         <div className="meta">
           <span className="author">By { authors }</span>
         </div>

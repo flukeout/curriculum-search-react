@@ -23,8 +23,9 @@ var SearchWrapper = React.createClass({
       filterOptions : this.props.filterOptions,   // All of the filter data
       enabledFilters : {},                        // All of the selected filters
       searchTerm : "",                            // Search terms
-      activityData : this.props.activityData,
-      collectionData : this.props.collectionData 
+      activityData : this.props.activityData,     // Simluated data for activities that match the search parameters
+      collectionData : this.props.collectionData,  // Simluated data for collections that match the search parameters
+      showCollections : true                      // Show or hide collections in the results list
     }
   },
 
@@ -133,7 +134,16 @@ var SearchWrapper = React.createClass({
     this.setState({
       arrowposition : left
     })
+
   },
+  
+  
+  toggleCollections : function(bool) {
+    this.setState({
+      showCollections : bool
+    })
+  },
+
 
   render: function() {
 
@@ -167,7 +177,7 @@ var SearchWrapper = React.createClass({
     var resetLinkStyle = {
       opacity: showReset ? 1 : 0
     }
-    
+
     var activityCount = this.state.activityData.length;
     var activities = this.state.activityData.map(function(details){
       return ( <ActivityItem details={ details }/> )
@@ -177,7 +187,7 @@ var SearchWrapper = React.createClass({
     var collections = this.state.collectionData.map(function(details){
       return ( <CollectionItem details={ details }/> )
     });
-
+    
     return (
       <div>
         <div className="centered">
@@ -192,8 +202,10 @@ var SearchWrapper = React.createClass({
         </div>
 
         <div className="result-list-wrapper">
-          <ResultsTitle resultcount={ activityCount } />
-          { collections }
+          <ResultsTitle showCollections={ this.state.showCollections } toggleCollections={ this.toggleCollections } esultcount={ activityCount } />
+
+          { this.state.showCollections ? collections : null }
+
           { activities }
         </div>
 

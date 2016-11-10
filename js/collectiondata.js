@@ -5,7 +5,7 @@ var collectionData = [
     "activity_count": 4,
     "subtitle": "Understanding credibility",
     "description": "Learners use the Internet to solve the mystery of The Kraken, a legendary sea creature, while also learning about search terms, keywords, and how to assess the validity and relevance of web sources.",
-    "image_url": "https://learning.mozilla.org/img/pages/web-lit-basics/img-kraken-code.jpg",
+    "image_url": "https://mozilla.github.io/mozilla-club-activity-kraken-the-code/activity-data/images/square-kraken.png",
     "url": "https://mozilla.github.io/mozilla-club-activity-kraken-the-code",
     "authors": [ "Mouse" ],
     "locale": "en-US"

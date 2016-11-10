@@ -10,9 +10,20 @@
     border: none;
   }
 
+  .activity-count {
+    color: white;
+    background: rgba(0,0,0,.8);
+    background: #248fd1;
+    padding: 10px 12px 9px 12px;
+    font-size: 1em;
+    margin-bottom: 18px;
+    display: inline-block;
+    margin-right: 15px;
+  }
+
   .thumbnail {
-    width: 200px;
-    height: 200px;
+    width: 185px;
+    height: 185px;
     position: absolute;
     left: 0;
     top: 0;
@@ -21,40 +32,41 @@
     background-size: cover;
     transition: opacity .2s ease-out;
     display: block;
+    border: solid 1px rgba(0,0,0,.1);
     
     &:hover {
       opacity: .9;
     }
-    
-    .activity-count {
-      color: white;
-      background: rgba(0,0,0,.8);
-      background: #248fd1;
-      padding: 12px;
-      font-size: .9em;
-      position: absolute;
-      bottom: 10px;
-      right: -10px;
-    }
-
-    &:after {
+  
+    &:after, &:before {
       content: "";
-      height: 2px;
-      left: 3px;
-      width: ~"calc(100% - 6px)";
-      bottom: -4px;
-      background: rgba(0,0,0,.07);
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border: solid 2px rgba(0,0,0,.12);
+      border-width: 0 2px 2px 0;
       position: absolute;
+      border-radius: 2px;
+      z-index: 4;
+      animation: slide .5s cubic-bezier(0.005, 1.000, 0.420, 1.590);
+    }
+    
+    &:after {
+      left: 6px;
+      top: 6px;
+      transform: rotate(1deg) translateY(1px) translateX(2px);
     }
 
     &:before {
-      content: "";
-      height: 2px;
-      left: 6px;
-      width: ~"calc(100% - 12px)";
-      bottom: -8px;
-      background: rgba(0,0,0,.07);
-      position: absolute;
+      left: 12px;
+      top: 12px;
+      transform: rotate(2deg) translateY(1px) translateX(3px);
+    }
+  }
+  
+  @keyframes slide {
+    0% {
+      transform: translateX(-6px) translateY(-6px);
     }
   }
   
@@ -82,8 +94,9 @@
 
   .meta {
     margin-bottom: 15px;
-    float: left;
     font-weight: 400;
+    display: inline-block;
+    opacity: .6;
 
    .author {
       margin: 0 28px 5px 0;

@@ -73,8 +73,9 @@
 	      filterOptions: this.props.filterOptions, // All of the filter data
 	      enabledFilters: {}, // All of the selected filters
 	      searchTerm: "", // Search terms
-	      activityData: this.props.activityData,
-	      collectionData: this.props.collectionData
+	      activityData: this.props.activityData, // Simluated data for activities that match the search parameters
+	      collectionData: this.props.collectionData, // Simluated data for collections that match the search parameters
+	      showCollections: true // Show or hide collections in the results list
 	    };
 	  },
 
@@ -185,6 +186,12 @@
 	    });
 	  },
 
+	  toggleCollections: function toggleCollections(bool) {
+	    this.setState({
+	      showCollections: bool
+	    });
+	  },
+
 	  render: function render() {
 
 	    var that = this;
@@ -261,8 +268,8 @@
 	      React.createElement(
 	        "div",
 	        { className: "result-list-wrapper" },
-	        React.createElement(ResultsTitle, { resultcount: activityCount }),
-	        collections,
+	        React.createElement(ResultsTitle, { showCollections: this.state.showCollections, toggleCollections: this.toggleCollections, esultcount: activityCount }),
+	        this.state.showCollections ? collections : null,
 	        activities
 	      ),
 	      React.createElement(
@@ -330,8 +337,7 @@
 	  "title": "Kraken the Code",
 	  "subtitle": "Understanding credibility",
 	  "description": "Learners use the Internet to solve the mystery of The Kraken, a legendary sea creature, while also learning about search terms, keywords, and how to assess the validity and relevance of web sources.",
-	  "image_url": "https://learning.mozilla.org/img/pages/web-lit-basics/img-kraken-code.jpg",
-	  "image_retina_url": "https://learning.mozilla.org/img/pages/web-lit-basics/img-kraken-code%402x.jpg",
+	  "image_url": "https://mozilla.github.io/mozilla-club-activity-kraken-the-code/activity-data/images/square-kraken.png",
 	  "url": "https://mozilla.github.io/mozilla-club-activity-kraken-the-code",
 	  "difficulty": "Beginner",
 	  "age_range": "Teens",
@@ -448,7 +454,7 @@
 	  "activity_count": 4,
 	  "subtitle": "Understanding credibility",
 	  "description": "Learners use the Internet to solve the mystery of The Kraken, a legendary sea creature, while also learning about search terms, keywords, and how to assess the validity and relevance of web sources.",
-	  "image_url": "https://learning.mozilla.org/img/pages/web-lit-basics/img-kraken-code.jpg",
+	  "image_url": "https://mozilla.github.io/mozilla-club-activity-kraken-the-code/activity-data/images/square-kraken.png",
 	  "url": "https://mozilla.github.io/mozilla-club-activity-kraken-the-code",
 	  "authors": ["Mouse"],
 	  "locale": "en-US"
@@ -797,6 +803,11 @@
 	      hasTerm: false
 	    };
 	  },
+
+	  toggleCollections: function toggleCollections(e) {
+	    this.props.toggleCollections(e.target.checked);
+	  },
+
 	  render: function render() {
 	    var heading = "Popular Topics";
 
@@ -810,7 +821,13 @@
 	      React.createElement(
 	        "h3",
 	        null,
-	        heading
+	        heading,
+	        React.createElement(
+	          "label",
+	          null,
+	          React.createElement("input", { checked: this.props.showCollections ? "checked" : null, onChange: this.toggleCollections, type: "checkbox" }),
+	          " Include Collections"
+	        )
 	      )
 	    );
 	  }
@@ -942,9 +959,8 @@
 
 	"use strict";
 
-	// Text input search field with a clear X button
-
-	var CollectionItem = React.createClass({
+	var // Text input search field with a clear X button
+	CollectionItem = React.createClass({
 	  displayName: "CollectionItem",
 
 	  render: function render() {
@@ -966,16 +982,7 @@
 	    return React.createElement(
 	      "div",
 	      { className: "collection-item list" },
-	      React.createElement(
-	        "a",
-	        { href: this.props.details.url, style: thumbnailStyle, className: "thumbnail" },
-	        React.createElement(
-	          "span",
-	          { className: "activity-count" },
-	          this.props.details.activity_count,
-	          " activities"
-	        )
-	      ),
+	      React.createElement("a", { href: this.props.details.url, style: thumbnailStyle, className: "thumbnail" }),
 	      React.createElement(
 	        "h1",
 	        { className: "title" },
@@ -986,9 +993,16 @@
 	        )
 	      ),
 	      React.createElement(
-	        "h2",
-	        null,
-	        "Activity Collection"
+	        "span",
+	        { className: "activity-count" },
+	        React.createElement(
+	          "strong",
+	          null,
+	          "Collection :"
+	        ),
+	        " ",
+	        this.props.details.activity_count,
+	        " activities"
 	      ),
 	      React.createElement(
 	        "div",
