@@ -219,13 +219,11 @@
 	    };
 
 	    var activityCount = this.state.activityData.length;
-
 	    var activities = this.state.activityData.map(function (details) {
 	      return React.createElement(ActivityItem, { details: details });
 	    });
 
 	    var collectionCount = this.state.collectionData.length;
-
 	    var collections = this.state.collectionData.map(function (details) {
 	      return React.createElement(CollectionItem, { details: details });
 	    });

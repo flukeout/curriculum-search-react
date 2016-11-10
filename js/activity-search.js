@@ -169,13 +169,11 @@ var SearchWrapper = React.createClass({
     }
     
     var activityCount = this.state.activityData.length;
-
     var activities = this.state.activityData.map(function(details){
       return ( <ActivityItem details={ details }/> )
     });
 
     var collectionCount = this.state.collectionData.length;
-
     var collections = this.state.collectionData.map(function(details){
       return ( <CollectionItem details={ details }/> )
     });
@@ -203,10 +201,8 @@ var SearchWrapper = React.createClass({
         enabledFilters: { JSON.stringify(this.state.enabledFilters) }  <br/><br/>
         searchTerm: { JSON.stringify(this.state.searchTerm) }
         </div>
-
       </div>
     );
-
   }
 });
 
