@@ -31,14 +31,14 @@
   .title {
     margin: 0 0 12px 0;
 
-    &:hover {
-      border: none;
-      opacity: .7;
-      
       a {
         text-decoration: none;
+
+        &:hover {
+          border: none;
+          opacity: .7;
+        }
       }
-    }
   }
 
   .meta {
@@ -66,11 +66,9 @@
     }
 
     .author {
-      background: ~"url(./images/pencil.svg)";
       background-size: 20px;
       background-position: left 2px;
       background-repeat: no-repeat;
-      padding-left: 22px;
     }
 
     span {
@@ -91,12 +89,12 @@
   }
 
   .tag-list {
-    margin: 8px 0 15px 0;
+    margin: 12px 0 15px 0;
     line-height: 140%;
 
     h2 {
       font-weight: 400;
-      margin: 0 0 5px 0;
+      margin: 0 0 3px 0;
       padding: 0;
       font-size: 1em;
       color: rgba(0,0,0,.8);
